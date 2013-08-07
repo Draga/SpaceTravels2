@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level width="800" height="480">
+    <entity x="790" y="240" width="75" height="90" type="ship"/>
+</level>
