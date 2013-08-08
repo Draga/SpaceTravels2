@@ -4,6 +4,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.draga.SpaceTravels2.GameActivity;
+import org.andengine.audio.music.Music;
+import org.andengine.audio.music.MusicFactory;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
@@ -42,8 +44,10 @@ public abstract class GameLevelLoader extends LevelLoader {
 	private static final String TAG_ENTITY_ATTRIBUTE_TYPE = "type";
 	private static final String TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_SHIP = "ship";
 	private static final String TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_EARTH = "earth";
+	private static final String TAG_ENTITY_ATTRIBUTE_MUSIC = "music";
+	public static Music mMusic;
 
-	public static enum TAGS {Ship, Earth};
+	public static enum TAGS {Ship, Earth}
 
 	public static LevelLoader LoadLevel(final GameActivity gameActivity, final Scene scene, final PhysicsWorld physicsWorld) {
 		final LevelLoader levelLoader = new LevelLoader();
@@ -54,13 +58,13 @@ public abstract class GameLevelLoader extends LevelLoader {
 		try {
 			mShipTexture = new AssetBitmapTexture(gameActivity.getTextureManager(), gameActivity.getAssets(), "gfx/ship64.png");
 			mEarthTexture = new AssetBitmapTexture(gameActivity.getTextureManager(), gameActivity.getAssets(), "gfx/earth.png");
-//			mEarthTexture = new BitmapTexture(gameActivity.getTextureManager(),
-//					new IInputStreamOpener() {
-//						@Override
-//						public InputStream open() throws IOException {
-//							return gameActivity.getAssets().open("gfx/earth.png");
-//						}
-//					});
+			//			mEarthTexture = new BitmapTexture(gameActivity.getTextureManager(),
+			//					new IInputStreamOpener() {
+			//						@Override
+			//						public InputStream open() throws IOException {
+			//							return gameActivity.getAssets().open("gfx/earth.png");
+			//						}
+			//					});
 		} catch (IOException e) {
 			Debug.e(e);
 			return null;
@@ -79,8 +83,6 @@ public abstract class GameLevelLoader extends LevelLoader {
 				final int height = SAXUtils.getIntAttributeOrThrow(pAttributes, LevelConstants.TAG_LEVEL_ATTRIBUTE_HEIGHT);
 				gameActivity.mBoundCamera.setBounds(0, 0, width, height);
 
-
-
 				final Rectangle ground = new Rectangle(0, height - 2, width, 2, gameActivity.getVertexBufferObjectManager());
 				final Rectangle roof = new Rectangle(0, 0, width, 2, gameActivity.getVertexBufferObjectManager());
 				final Rectangle left = new Rectangle(0, 0, 2, height, gameActivity.getVertexBufferObjectManager());
@@ -97,36 +99,34 @@ public abstract class GameLevelLoader extends LevelLoader {
 				scene.attachChild(left);
 				scene.attachChild(right);
 
-
-
 				final ITextureRegion backgroundTextureRegion;
 				final ITexture backgroundTexture;
-				final String backgroundFile = SAXUtils.getAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_BACKGROUND);
-				try {
-					backgroundTexture = new AssetBitmapTexture(gameActivity.getTextureManager(), gameActivity.getAssets(), "gfx/" + backgroundFile);
-				} catch (IOException e) {
-					Debug.e(e);
-					return null;
+				final String backgroundFile = SAXUtils.getAttribute(pAttributes, TAG_ENTITY_ATTRIBUTE_BACKGROUND, null);
+				if (backgroundFile != null) {
+					try {
+						backgroundTexture = new AssetBitmapTexture(gameActivity.getTextureManager(), gameActivity.getAssets(), "gfx/" + backgroundFile);
+					} catch (IOException e) {
+						Debug.e(e);
+						return null;
+					}
+					backgroundTexture.load();
+					backgroundTextureRegion = TextureRegionFactory.extractFromTexture(backgroundTexture);
+					final Sprite backgroundSprite = new Sprite(0, 0, width, height, backgroundTextureRegion, gameActivity.getVertexBufferObjectManager());
+					scene.attachChild(backgroundSprite);
 				}
-				backgroundTexture.load();
-				backgroundTextureRegion = TextureRegionFactory.extractFromTexture(backgroundTexture);
-//				final Background background = new SpriteBackground(new Sprite(0, 0, width, height,backgroundTextureRegion , gameActivity.getVertexBufferObjectManager()));
-//				final RepeatingSpriteBackground background = new RepeatingSpriteBackground(GameActivity.CAMERA_WIDTH*2, GameActivity.CAMERA_HEIGHT,
-// gameActivity.getTextureManager(),
-//						AssetBitmapTextureAtlasSource.create(gameActivity.getAssets(), "gfx/"+backgroundFile)
-//						,gameActivity.getVertexBufferObjectManager());
-//				scene.setBackground(background);
-				final Sprite backgroundSprite = new Sprite(0,0,width,height,backgroundTextureRegion, gameActivity.getVertexBufferObjectManager());
-				scene.attachChild(backgroundSprite);
 
-//				scene.setScale(width/gameActivity.CAMERA_WIDTH, height /gameActivity.CAMERA_HEIGHT);
-
-//				gameActivity.runOnUiThread(new Runnable() {
-//					@Override
-//					public void run() {
-//						Toast.makeText(gameActivity, "Loaded level with width=" + width + " and height=" + height + ".", Toast.LENGTH_LONG).show();
-//					}
-//				});
+				// Music
+				final String musicFile = SAXUtils.getAttribute(pAttributes, TAG_ENTITY_ATTRIBUTE_MUSIC, null);
+				if (musicFile != null) {
+					MusicFactory.setAssetBasePath("mfx/");
+					try {
+						mMusic = MusicFactory.createMusicFromAsset(gameActivity.getEngine().getMusicManager(), gameActivity, musicFile);
+					} catch (final IOException e) {
+						Debug.e(e);
+					}
+					mMusic.setLooping(true);
+					mMusic.play();
+				}
 				return scene;
 			}
 		});
@@ -148,21 +148,19 @@ public abstract class GameLevelLoader extends LevelLoader {
 					sprite = new Sprite(x, y, width, height, mShipTextureRegion, vertexBufferObjectManager);
 					sprite.setTag(TAGS.Ship.ordinal());
 					final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.2f, 0.8f);
-					final Body body = PhysicsFactory.createBoxBody(physicsWorld, sprite,
-							BodyDef.BodyType.DynamicBody,
-							objectFixtureDef);
+					final Body body = PhysicsFactory.createBoxBody(physicsWorld, sprite, BodyDef.BodyType.DynamicBody, objectFixtureDef);
 					physicsWorld.registerPhysicsConnector(new PhysicsConnector(sprite, body, true, false));
 
 					gameActivity.mBoundCamera.setChaseEntity(sprite);
 					gameActivity.mBoundCamera.setBoundsEnabled(true);
+					//TODO: proper rotation handling
+					sprite.registerUpdateHandler(new ShipUpdateHandler(scene, physicsWorld, gameActivity.mBoundCamera));
 				} else if (type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_EARTH)) {
 
 					sprite = new Sprite(x, y, width, height, mEarthTextureRegion, vertexBufferObjectManager);
 					sprite.setTag(TAGS.Earth.ordinal());
 					final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.2f, 0.8f);
-					final Body body = PhysicsFactory.createBoxBody(physicsWorld, sprite,
-							BodyDef.BodyType.StaticBody,
-							objectFixtureDef);
+					final Body body = PhysicsFactory.createBoxBody(physicsWorld, sprite, BodyDef.BodyType.StaticBody, objectFixtureDef);
 					physicsWorld.registerPhysicsConnector(new PhysicsConnector(sprite, body, false, false));
 				} else {
 					throw new IllegalArgumentException();
@@ -172,5 +170,4 @@ public abstract class GameLevelLoader extends LevelLoader {
 		});
 		return levelLoader;
 	}
-
 }

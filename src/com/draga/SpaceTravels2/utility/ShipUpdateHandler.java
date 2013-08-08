@@ -24,12 +24,13 @@ public class ShipUpdateHandler implements IUpdateHandler {
 
 	public ShipUpdateHandler(Scene mScene, PhysicsWorld mPhysicsWorld, BoundCamera mBoundCamera) {
 		this.mScene = mScene;
-		this.mPhysicsWorld= mPhysicsWorld;
+		this.mPhysicsWorld = mPhysicsWorld;
 		this.mBoundCamera = mBoundCamera;
 	}
 
 	@Override
-	public void reset() { }
+	public void reset() {
+	}
 
 	@Override
 	public void onUpdate(final float pSecondsElapsed) {
@@ -39,23 +40,20 @@ public class ShipUpdateHandler implements IUpdateHandler {
 		IEntity shipEntity = mScene.getChildByTag(GameLevelLoader.TAGS.Ship.ordinal());
 		float diffRotation = thrustRotation - shipEntity.getRotation();
 		// Avoid ship turning 360 when rotation close to 0 degrees
-		if (diffRotation < -180)
-			diffRotation += 360;
-		else if (diffRotation > 180)
-			diffRotation -= 360;
+		if (diffRotation < -180) diffRotation += 360;
+		else if (diffRotation > 180) diffRotation -= 360;
 		// bring the rotation to the max if it's over it
 		float maxTurn = TURN_DEGREES_PER_SEC * pSecondsElapsed * (Math.min(9.8f, accelerometer.len()) / 9.8f);
 		if (Math.abs(diffRotation) > maxTurn) {
 			diffRotation = diffRotation > 0 ? maxTurn : -maxTurn;
 		}
 		float finalRotation = shipEntity.getRotation() + diffRotation;
-		if (finalRotation>360)
-			finalRotation%=360;
-		else if(finalRotation<0)
-			finalRotation+=360;
+		if (finalRotation > 360) finalRotation %= 360;
+		else if (finalRotation < 0) finalRotation += 360;
 		shipEntity.setRotation(finalRotation);
 
 		//updates the camera chasing the ship
 		mBoundCamera.onUpdate(pSecondsElapsed);
+		//		mBoundCamera.updateChaseEntity();
 	}
 }

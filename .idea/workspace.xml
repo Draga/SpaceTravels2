@@ -23,11 +23,11 @@
     </option>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" name="Default" comment="Scrolling background, new ship texture">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/draga/SpaceTravels2/GameActivity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/draga/SpaceTravels2/utility/GameLevelLoader.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/draga/SpaceTravels2/MainActivity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/draga/SpaceTravels2/utility/ShipUpdateHandler.java" />
+    <list default="true" id="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/mfx/battle.midi" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/draga/SpaceTravels2/GameActivity.java" afterPath="$PROJECT_DIR$/src/com/draga/SpaceTravels2/GameActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/draga/SpaceTravels2/utility/GameLevelLoader.java" afterPath="$PROJECT_DIR$/src/com/draga/SpaceTravels2/utility/GameLevelLoader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/draga/SpaceTravels2/utility/ShipUpdateHandler.java" afterPath="$PROJECT_DIR$/src/com/draga/SpaceTravels2/utility/ShipUpdateHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="1da2ed43-6997-4aae-ad30-c10f95e7beec" name="ignore" comment="">
@@ -38,13 +38,13 @@
     <ignored path="SpaceTravels2.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/fragment.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375904304222" ignored="false" />
-    <file path="/Dummy.txt" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375987715682" ignored="false" />
-    <file path="/GameActivity.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375914900804" ignored="false" />
-    <file path="/a.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375731542875" ignored="false" />
-    <file path="/sample.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375728813890" ignored="false" />
+    <file path="/Dummy.txt" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375990615361" ignored="false" />
+    <file path="/GameActivity.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375994310736" ignored="false" />
+    <file path="/a.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375992717703" ignored="false" />
+    <file path="/sample.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375992711509" ignored="false" />
     <file path="/level1.xml" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375730977720" ignored="false" />
     <file path="/LevelLoader.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375744874978" ignored="false" />
-    <file path="/GameLevelLoader.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375915813878" ignored="false" />
+    <file path="/GameLevelLoader.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375994669202" ignored="false" />
     <file path="/AnalogOnScreenControlsExample.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375741387097" ignored="false" />
     <file path="/PhysicsWorld.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375741669474" ignored="false" />
     <file path="/PhysicsConnector.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375741694297" ignored="false" />
@@ -54,7 +54,7 @@
     <file path="/MainActivity.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375815768262" ignored="false" />
     <file path="/ShipEntity.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375809607329" ignored="false" />
     <file path="/strings.xml" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375809980776" ignored="false" />
-    <file path="/level1.lvl" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375821855681" ignored="false" />
+    <file path="/level1.lvl" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375993007519" ignored="false" />
     <file path="/GameUpdateHandler.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375824205281" ignored="false" />
     <file path="/RepeatingSpriteBackgroundExample.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375825846031" ignored="false" />
     <file path="/BoundCameraExample.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375824668963" ignored="false" />
@@ -65,7 +65,9 @@
     <file path="/FixtureDef.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375907338445" ignored="false" />
     <file path="/TMXTiledMapExample.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375909863104" ignored="false" />
     <file path="/Camera.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375911006910" ignored="false" />
-    <file path="/ShipUpdateHandler.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375915457667" ignored="false" />
+    <file path="/ShipUpdateHandler.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375988115015" ignored="false" />
+    <file path="/Ship.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375989894916" ignored="false" />
+    <file path="$PROJECT_DIR$/../AndEngineExamples/src/org/andengine/examples/SoundExample.java" changelist="cbeaaf20-227e-4ec8-8d1f-655d80ff979e" time="1375990941543" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,28 +134,80 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Camera.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Camera.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../AndEngine/src/org/andengine/engine/camera/Camera.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="255" column="0" selection-start="6205" selection-end="6205" vertical-scroll-proportion="0.02881356">
+            <state line="254" column="0" selection-start="6202" selection-end="6202" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CircleShape.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../AndEnginePhysicsBox2DExtension/src/com/badlogic/gdx/physics/box2d/CircleShape.java">
+      <file leaf-file-name="Engine.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../AndEngine/src/org/andengine/engine/Engine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="11" selection-start="978" selection-end="978" vertical-scroll-proportion="0.0">
+            <state line="598" column="0" selection-start="19602" selection-end="19602" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FixtureDef.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../AndEnginePhysicsBox2DExtension/src/com/badlogic/gdx/physics/box2d/FixtureDef.java">
+      <file leaf-file-name="GameActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/draga/SpaceTravels2/GameActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="13" selection-start="1113" selection-end="1113" vertical-scroll-proportion="0.0">
+            <state line="60" column="62" selection-start="2510" selection-end="2510" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="level1.lvl" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/level/level1.lvl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1" column="81" selection-start="101" selection-end="120" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PhysicsConnector.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../AndEnginePhysicsBox2DExtension/src/org/andengine/extension/physics/box2d/PhysicsConnector.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="49" column="11" selection-start="1584" selection-end="1584" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GameLevelLoader.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/draga/SpaceTravels2/utility/GameLevelLoader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="155" column="52" selection-start="7555" selection-end="7555" vertical-scroll-proportion="0.5899123">
+              <folding>
+                <element signature="e#3433#6105#0" expanded="true" />
+                <element signature="e#6100#6101#0" expanded="true" />
+                <element signature="e#6156#8261#0" expanded="true" />
+                <element signature="e#8256#8257#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/draga/SpaceTravels2/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="18" column="0" selection-start="323" selection-end="323" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ShipUpdateHandler.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/draga/SpaceTravels2/utility/ShipUpdateHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="59" column="41" selection-start="2053" selection-end="2053" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -167,7 +221,7 @@
     </FindUsagesManager>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../AndEngine" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitLogSettings">
     <option name="myDateState">
@@ -177,7 +231,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/draga/SpaceTravels2/utility/LevelLoader.java" />
         <option value="$PROJECT_DIR$/../AndEngine/src/org/andengine/opengl/texture/bitmap/BitmapTexture.java" />
         <option value="$PROJECT_DIR$/src/com/draga/SpaceTravels2/ShipPhysicsConnector.java" />
         <option value="$PROJECT_DIR$/../AndEnginePhysicsBox2DExtension/src/org/andengine/extension/physics/box2d/PhysicsConnector.java" />
@@ -189,10 +242,11 @@
         <option value="$PROJECT_DIR$/src/com/draga/SpaceTravels2/utility/GameUpdateHandler.java" />
         <option value="$PROJECT_DIR$/../AndEngine/src/org/andengine/util/level/LevelParser.java" />
         <option value="$PROJECT_DIR$/../AndEngine/src/org/andengine/util/level/IEntityLoader.java" />
+        <option value="$PROJECT_DIR$/src/com/draga/SpaceTravels2/Ship.java" />
         <option value="$PROJECT_DIR$/assets/level/level1.lvl" />
+        <option value="$PROJECT_DIR$/src/com/draga/SpaceTravels2/utility/ShipUpdateHandler.java" />
         <option value="$PROJECT_DIR$/src/com/draga/SpaceTravels2/GameActivity.java" />
         <option value="$PROJECT_DIR$/src/com/draga/SpaceTravels2/utility/GameLevelLoader.java" />
-        <option value="$PROJECT_DIR$/src/com/draga/SpaceTravels2/utility/ShipUpdateHandler.java" />
       </list>
     </option>
   </component>
@@ -415,7 +469,7 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectReloadState">
-    <option name="STATE" value="2" />
+    <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
@@ -430,8 +484,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -499,21 +551,91 @@
               <option name="myItemId" value="SpaceTravels2" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SpaceTravels2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SpaceTravels2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SpaceTravels2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mfx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SpaceTravels2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SpaceTravels2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="level" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SpaceTravels2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SpaceTravels2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gfx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SpaceTravels2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="project.structure.last.edited" value="Modules" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="277" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="277" />
     <property name="project.structure.proportion" value="0.15" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="277" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
-    <property name="MemberChooser.sorted" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="281" />
+    <property name="recentsLimit" value="5" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../AndEngineExamples" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="277" />
@@ -529,12 +651,12 @@
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="options.lastSelected" value="vcs.Git" />
+    <property name="options.lastSelected" value="preferences.sourceCode.Java" />
     <property name="AndroidLayoutSelectedEditor" value="text-editor" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
@@ -550,8 +672,9 @@
       <recent name="com.draga.SpaceTravels2" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Stefano\Programming\Code\SpaceTravels2\assets\gfx" />
       <recent name="D:\Stefano\Programming\Code\SpaceTravels2\assets" />
+      <recent name="D:\Stefano\Programming\Code\SpaceTravels2\assets\mfx" />
+      <recent name="D:\Stefano\Programming\Code\SpaceTravels2\assets\gfx" />
       <recent name="D:\Stefano\Programming\Code\SpaceTravels2\assets\gfx\level" />
     </key>
   </component>
@@ -588,6 +711,19 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -613,19 +749,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -757,7 +880,11 @@
       <created>1375986532159</created>
       <updated>1375986532159</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Scrolling background, new ship texture">
+      <created>1375987767785</created>
+      <updated>1375987767785</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -782,23 +909,25 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32942432" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942432" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="CheckStyle" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942432" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942432" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32622603" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3283582" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942432" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942432" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3283582" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942432" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26048565" sideWeight="0.6705757" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14403974" sideWeight="0.6727079" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3272921" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294702" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
@@ -807,8 +936,6 @@
       <window_info id="SVN Properties" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942432" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294702" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942432" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942432" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -844,7 +971,7 @@
     <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
     <option name="SHOW_FILE_HISTORY_DETAILS" value="true" />
-    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
+    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="false" />
     <option name="SHOW_DIRTY_RECURSIVELY" value="false" />
     <option name="LIMIT_HISTORY" value="true" />
     <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
@@ -878,98 +1005,114 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../AndEngine/src/org/andengine/engine/camera/Camera.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../AndEnginePhysicsBox2DExtension/src/com/badlogic/gdx/physics/box2d/CircleShape.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="11" selection-start="978" selection-end="978" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../AndEnginePhysicsBox2DExtension/src/com/badlogic/gdx/physics/box2d/FixtureDef.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="13" selection-start="1113" selection-end="1113" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ic_launcher-web.png">
       <provider selected="true" editor-type-id="images">
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../AndEngine/src/org/andengine/engine/camera/Camera.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="244" column="16" selection-start="5970" selection-end="5970" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../AndEnginePhysicsBox2DExtension/src/com/badlogic/gdx/physics/box2d/CircleShape.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="11" selection-start="978" selection-end="978" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="28" column="11" selection-start="978" selection-end="978" vertical-scroll-proportion="0.030701755" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../AndEnginePhysicsBox2DExtension/src/com/badlogic/gdx/physics/box2d/FixtureDef.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="13" selection-start="1113" selection-end="1113" vertical-scroll-proportion="0.0">
+        <state line="23" column="13" selection-start="1113" selection-end="1113" vertical-scroll-proportion="0.42872807">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../AndEngine/src/org/andengine/util/level/LevelLoader.java">
+    <entry file="file://$PROJECT_DIR$/README">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="107" column="0" selection-start="3221" selection-end="3221" vertical-scroll-proportion="0.24006623" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../AndEnginePhysicsBox2DExtension/src/com/badlogic/gdx/physics/box2d/BodyDef.java">
+    <entry file="file://$PROJECT_DIR$/../AndEnginePhysicsBox2DExtension/src/com/badlogic/gdx/physics/box2d/Body.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="41" selection-start="1344" selection-end="1344" vertical-scroll-proportion="0.0">
+        <state line="162" column="18" selection-start="6666" selection-end="6666" vertical-scroll-proportion="0.3881579">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../AndEnginePhysicsBox2DExtension/src/com/badlogic/gdx/physics/box2d/Shape.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="22" selection-start="1209" selection-end="1209" vertical-scroll-proportion="0.0" />
+    <entry file="file://$PROJECT_DIR$/assets/Animated-spinning-planet-moving-picture.gif">
+      <provider selected="true" editor-type-id="images">
+        <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../AndEnginePhysicsBox2DExtension/src/com/badlogic/gdx/physics/box2d/FixtureDef.java">
+    <entry file="file://$PROJECT_DIR$/src/com/draga/SpaceTravels2/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="13" selection-start="1113" selection-end="1113" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../AndEnginePhysicsBox2DExtension/src/com/badlogic/gdx/physics/box2d/CircleShape.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="11" selection-start="978" selection-end="978" vertical-scroll-proportion="0.0">
+        <state line="18" column="0" selection-start="323" selection-end="323" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="jar://$USER_HOME$/AppData/Local/Android/android-sdk/platforms/android-15/android.jar!/java/net/Socket.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="93" column="38" selection-start="4077" selection-end="4077" vertical-scroll-proportion="0.45942983" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ic_launcher-web.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
+        <state line="95" column="60" selection-start="4223" selection-end="4223" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../AndEngine/src/org/andengine/engine/camera/Camera.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="255" column="0" selection-start="6205" selection-end="6205" vertical-scroll-proportion="0.02881356">
+        <state line="254" column="0" selection-start="6202" selection-end="6202" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../AndEngine/src/org/andengine/engine/Engine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="598" column="0" selection-start="19602" selection-end="19602" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/level/level1.lvl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="81" selection-start="101" selection-end="120" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../AndEnginePhysicsBox2DExtension/src/org/andengine/extension/physics/box2d/PhysicsConnector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="11" selection-start="1584" selection-end="1584" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../AndEngine/src/org/andengine/entity/Entity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="814" column="16" selection-start="19018" selection-end="19018" vertical-scroll-proportion="0.33333334">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/draga/SpaceTravels2/utility/ShipUpdateHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="59" column="41" selection-start="2053" selection-end="2053" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/draga/SpaceTravels2/GameActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="60" column="62" selection-start="2510" selection-end="2510" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/draga/SpaceTravels2/utility/GameLevelLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="155" column="52" selection-start="7555" selection-end="7555" vertical-scroll-proportion="0.5899123">
+          <folding>
+            <element signature="e#3433#6105#0" expanded="true" />
+            <element signature="e#6100#6101#0" expanded="true" />
+            <element signature="e#6156#8261#0" expanded="true" />
+            <element signature="e#8256#8257#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
