@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<level width="1600" height="480" background="background4.jpg">
-    <entity x="40" y="240" width="64" height="64" type="ship"/>
-    <entity x="1520" y="240" width="68" height="68" type="earth"/>
-</level>
