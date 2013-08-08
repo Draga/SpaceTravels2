@@ -1,0 +1,19 @@
+<component name="libraryTable">
+  <library name="andengine">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../AndEngine/bin/andengine.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../AndEnginePhysicsBox2DExtension/bin/andenginephysicsbox2dextension.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../AndEngineAugmentedRealityExtension/bin/andengineaugmentedrealityextension.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../AndEngineDebugDrawExtension/bin/andenginedebugdrawextension.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../AndEngineLiveWallpaperExtension/bin/andenginelivewallpaperextension.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../AndEngineMODPlayerExtension/bin/andenginemodplayerextension.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../AndEngineMultiplayerExtension/bin/andenginemultiplayerextension.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../AndEngineScriptingExtension/bin/andenginescriptingextension.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../AndEngineSVGTextureRegionExtension/bin/andenginesvgtextureregionextension.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../AndEngineTexturePackerExtension/bin/andenginetexturepackerextension.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../AndEngineTMXTiledMapExtension/bin/andenginetmxtiledmapextension.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
