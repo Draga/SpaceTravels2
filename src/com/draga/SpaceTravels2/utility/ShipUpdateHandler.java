@@ -4,8 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import org.andengine.engine.camera.BoundCamera;
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.Entity;
-import org.andengine.entity.IEntity;
-import org.andengine.entity.scene.Scene;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 
 /**
@@ -19,13 +17,13 @@ public class ShipUpdateHandler implements IUpdateHandler {
 	private static final float TURN_DEGREES_PER_SEC = 540;
 
 	private PhysicsWorld mPhysicsWorld;
-	private Entity mScene;
 	private BoundCamera mBoundCamera;
+	private Entity mShip;
 
-	public ShipUpdateHandler(Scene mScene, PhysicsWorld mPhysicsWorld, BoundCamera mBoundCamera) {
-		this.mScene = mScene;
-		this.mPhysicsWorld = mPhysicsWorld;
-		this.mBoundCamera = mBoundCamera;
+	public ShipUpdateHandler(PhysicsWorld physicsWorld, BoundCamera boundCamera, Entity ship) {
+		this.mPhysicsWorld = physicsWorld;
+		this.mBoundCamera = boundCamera;
+		this.mShip = ship;
 	}
 
 	@Override
@@ -37,8 +35,7 @@ public class ShipUpdateHandler implements IUpdateHandler {
 		Vector2 accelerometer = mPhysicsWorld.getGravity();
 		float thrustRotation = new Vector2(-accelerometer.y, accelerometer.x).angle();
 
-		IEntity shipEntity = mScene.getChildByTag(GameLevelLoader.TAGS.Ship.ordinal());
-		float diffRotation = thrustRotation - shipEntity.getRotation();
+		float diffRotation = thrustRotation - mShip.getRotation();
 		// Avoid ship turning 360 when rotation close to 0 degrees
 		if (diffRotation < -180) diffRotation += 360;
 		else if (diffRotation > 180) diffRotation -= 360;
@@ -47,10 +44,11 @@ public class ShipUpdateHandler implements IUpdateHandler {
 		if (Math.abs(diffRotation) > maxTurn) {
 			diffRotation = diffRotation > 0 ? maxTurn : -maxTurn;
 		}
-		float finalRotation = shipEntity.getRotation() + diffRotation;
+		float finalRotation = mShip.getRotation() + diffRotation;
+		//Brings the finalRotation between 0 and 360
 		if (finalRotation > 360) finalRotation %= 360;
 		else if (finalRotation < 0) finalRotation += 360;
-		shipEntity.setRotation(finalRotation);
+		mShip.setRotation(finalRotation);
 
 		//updates the camera chasing the ship
 		mBoundCamera.onUpdate(pSecondsElapsed);

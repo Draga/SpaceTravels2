@@ -3,12 +3,15 @@ package com.draga.SpaceTravels2;
 import android.hardware.SensorManager;
 import android.widget.Toast;
 import com.badlogic.gdx.math.Vector2;
+import com.draga.SpaceTravels2.utility.GameEntityLoader;
 import com.draga.SpaceTravels2.utility.GameLevelLoader;
+import org.andengine.audio.music.Music;
 import org.andengine.engine.camera.BoundCamera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
+import org.andengine.entity.util.FPSLogger;
 import org.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
 import org.andengine.extension.physics.box2d.util.Vector2Pool;
 import org.andengine.input.sensor.acceleration.AccelerationData;
@@ -16,6 +19,7 @@ import org.andengine.input.sensor.acceleration.IAccelerationListener;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.level.LevelLoader;
+import org.andengine.util.level.constants.LevelConstants;
 
 import java.io.IOException;
 
@@ -24,11 +28,12 @@ public class GameActivity extends BaseGameActivity implements IAccelerationListe
 	public static final int CAMERA_WIDTH = 800;
 	public static final int CAMERA_HEIGHT = 480;
 	public static final String EXTRA_TAG_LEVEL = "level";
-
+	private static final String TAG_ENTITY = "entity";
 	public BoundCamera mBoundCamera;
-	private FixedStepPhysicsWorld mPhysicsWorld;
+	private FixedStepPhysicsWorld mFixedStepPhysicsWorld;
 	private Scene mScene;
-	private LevelLoader mGameLevelLoader;
+	private LevelLoader mLevelLoader;
+	private Music mMusic;
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
@@ -46,16 +51,21 @@ public class GameActivity extends BaseGameActivity implements IAccelerationListe
 
 	@Override
 	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback) throws Exception {
-		//		this.mEngine.registerUpdateHandler(new FPSLogger());
+		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		this.mScene = new Scene();
 		//		this.mScene.setBackground(new Background(0, 0, 0));
-		this.mPhysicsWorld = new FixedStepPhysicsWorld(50, new Vector2(0, SensorManager.GRAVITY_EARTH), true, 3, 2);
+		this.mFixedStepPhysicsWorld = new FixedStepPhysicsWorld(50, new Vector2(0, SensorManager.GRAVITY_EARTH), true, 3, 2);
 
-		// TODO: load resources in appropriate method
-		this.mGameLevelLoader = GameLevelLoader.LoadLevel(this, this.mScene, this.mPhysicsWorld);
+		// TODO: create resources in appropriate method
+		this.mLevelLoader = new LevelLoader();
+		mLevelLoader.setAssetBasePath("level/");
 
-		this.mScene.registerUpdateHandler(this.mPhysicsWorld);
+		mLevelLoader.registerEntityLoader(LevelConstants.TAG_LEVEL, new GameLevelLoader(this));
+
+		mLevelLoader.registerEntityLoader(TAG_ENTITY, new GameEntityLoader(this));
+
+		this.mScene.registerUpdateHandler(this.mFixedStepPhysicsWorld);
 
 		pOnCreateSceneCallback.onCreateSceneFinished(mScene);
 	}
@@ -63,7 +73,7 @@ public class GameActivity extends BaseGameActivity implements IAccelerationListe
 	@Override
 	public void onPopulateScene(Scene pScene, OnPopulateSceneCallback pOnPopulateSceneCallback) throws Exception {
 		try {
-			mGameLevelLoader.loadLevelFromAsset(this.getAssets(), String.format("level%d.lvl", getIntent().getExtras().getInt(EXTRA_TAG_LEVEL)));
+			mLevelLoader.loadLevelFromAsset(this.getAssets(), String.format("level%d.lvl", getIntent().getExtras().getInt(EXTRA_TAG_LEVEL)));
 		} catch (final IOException e) {
 			Debug.e(e);
 			throw e;
@@ -79,7 +89,7 @@ public class GameActivity extends BaseGameActivity implements IAccelerationListe
 	@Override
 	public void onAccelerationChanged(AccelerationData pAccelerationData) {
 		final Vector2 gravity = Vector2Pool.obtain(pAccelerationData.getX(), pAccelerationData.getY());
-		this.mPhysicsWorld.setGravity(gravity);
+		this.mFixedStepPhysicsWorld.setGravity(gravity);
 
 		Vector2Pool.recycle(gravity);
 	}
@@ -87,15 +97,27 @@ public class GameActivity extends BaseGameActivity implements IAccelerationListe
 	@Override
 	public void onResumeGame() {
 		super.onResumeGame();
-		if (GameLevelLoader.mMusic != null) GameLevelLoader.mMusic.resume();
+		if (mMusic != null) mMusic.resume();
 		this.enableAccelerationSensor(this);
 	}
 
 	@Override
 	public void onPauseGame() {
 		super.onPauseGame();
-		if (GameLevelLoader.mMusic != null) GameLevelLoader.mMusic.pause();
+		if (mMusic != null) mMusic.pause();
 		this.disableAccelerationSensor();
+	}
+
+	public FixedStepPhysicsWorld getFixedStepPhysicsWorld() {
+		return mFixedStepPhysicsWorld;
+	}
+
+	public Scene getScene() {
+		return mScene;
+	}
+
+	public void setMusic(Music music) {
+		this.mMusic = music;
 	}
 
 	//	private void addShip(float pX, float pY) {
@@ -105,12 +127,12 @@ public class GameActivity extends BaseGameActivity implements IAccelerationListe
 	//		final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 	//
 	//		ship = new Sprite(pX, pY, this.mShipTextureRegion, this.getVertexBufferObjectManager());
-	//		body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, ship,
+	//		body = PhysicsFactory.createBoxBody(this.mFixedStepPhysicsWorld, ship,
 	//				BodyType.DynamicBody,
 	//				objectFixtureDef);
 	//
 	//		this.mScene.attachChild(ship);
-	//		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(ship, body, true,
+	//		this.mFixedStepPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(ship, body, true,
 	//				true));
 	//	}
 }
