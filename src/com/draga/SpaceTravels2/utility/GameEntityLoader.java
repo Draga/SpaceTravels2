@@ -2,15 +2,17 @@ package com.draga.SpaceTravels2.utility;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.draga.SpaceTravels2.GameActivity;
+import org.andengine.engine.handler.physics.PhysicsHandler;
 import org.andengine.entity.IEntity;
+import org.andengine.entity.scene.IOnSceneTouchListener;
+import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
+import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
@@ -30,6 +32,10 @@ import org.andengine.util.level.IEntityLoader;
 import org.xml.sax.Attributes;
 
 import java.io.IOException;
+
+//import com.badlogic.gdx.physics.box2d.Body;
+//import com.badlogic.gdx.physics.box2d.BodyDef;
+//import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 /**
  * Created with IntelliJ IDEA.
@@ -51,13 +57,13 @@ public class GameEntityLoader implements IEntityLoader {
 	private static final String TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_JUPITER = "jupiter";
 	private static final String TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_MARS = "mars";
 	private static final String TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_VENUS = "venus";
+	private final Scene mScene;
 	private PhysicsWorld mPhysicsWorld;
 	private GameActivity mGameActivity;
 
-	public static enum TAGS {Ship, Flame, Jupiter, Mars, Venus, Earth}
-
 	public GameEntityLoader(GameActivity gameActivity) {
 		this.mGameActivity = gameActivity;
+		this.mScene = mGameActivity.getScene();
 		this.mPhysicsWorld = gameActivity.getFixedStepPhysicsWorld();
 	}
 
@@ -71,33 +77,40 @@ public class GameEntityLoader implements IEntityLoader {
 
 		final VertexBufferObjectManager vertexBufferObjectManager = mGameActivity.getVertexBufferObjectManager();
 
-		final Sprite sprite;
-
 		if (type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_SHIP)) {
-			sprite = loadSprite("gfx/ship64.png", x, y, width, height, vertexBufferObjectManager);
-			sprite.setTag(TAGS.Ship.ordinal());
-			final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0, 0.8f);
-			final Body body = PhysicsFactory.createBoxBody(mPhysicsWorld, sprite, BodyDef.BodyType.DynamicBody, objectFixtureDef);
-			mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(sprite, body, true, false));
-
-			mGameActivity.mBoundCamera.setChaseEntity(sprite);
+			final Sprite shipSprite = loadSprite("gfx/ship64.png", x, y, width, height, vertexBufferObjectManager);
+			shipSprite.setTag(EntityTags.Ship.ordinal());
+			final FixtureDef shipFixtureDef = PhysicsFactory.createFixtureDef(1, 0, 0.8f);
+			final Body shipBody = PhysicsFactory.createBoxBody(mPhysicsWorld, shipSprite, BodyDef.BodyType.DynamicBody, shipFixtureDef);
+			//			mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(shipSprite, shipBody, true, false));
+			//			mScene.attachChild(shipSprite);
+			mGameActivity.mBoundCamera.setChaseEntity(shipSprite);
 			mGameActivity.mBoundCamera.setBoundsEnabled(true);
 			// TODO: proper rotation handling
-			sprite.registerUpdateHandler(new ShipUpdateHandler(mPhysicsWorld, mGameActivity.mBoundCamera, sprite));
+			mScene.registerUpdateHandler(new ShipPhysicsConnector(mGameActivity.mBoundCamera, shipSprite, mPhysicsWorld, shipBody, mScene));
 
 			// Missile
-			//			mGameActivity.getScene().setOnSceneTouchListener(new IOnSceneTouchListener() {
-			//				@Override
-			//				public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
-			//					Sprite missileSprite = loadSprite("gfx/particle_point.png", sprite.getX(), sprite.getY() + sprite.getHeight() / 2, 10, 10, vertexBufferObjectManager);
-			//					//					missileSprite.setRed(1);
-			//					final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0, 0.8f);
-			//					objectFixtureDef.shape = new CircleShape();
-			//					final Body body = PhysicsFactory.createBoxBody(mPhysicsWorld, missileSprite, BodyDef.BodyType.StaticBody, objectFixtureDef);
-			//					mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(missileSprite, body, false, false));
-			//					return true;
-			//				}
-			//			});
+			mScene.setOnSceneTouchListener(new IOnSceneTouchListener() {
+				@Override
+				public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
+					//					final Sprite shipEntity = (Sprite) pScene.getChildByTag(TAGS.Ship.ordinal());
+					final int missileWidth = 16;
+					final int missileHeight = 32;
+					final float[] weaponCoordinates = shipSprite.convertLocalToSceneCoordinates(shipSprite.getWidth() / 2, -shipSprite.getHeight() / 2);
+					Sprite missileSprite = loadSprite("gfx/missile16x32.png", weaponCoordinates[0], weaponCoordinates[1], missileWidth, missileHeight, vertexBufferObjectManager);
+					//					final FixtureDef missileFixtureDef = PhysicsFactory.createFixtureDef(1, 0, 0.8f);
+					//					final Body missileBody = PhysicsFactory.createBoxBody(mPhysicsWorld, missileSprite, BodyDef.BodyType.KinematicBody, missileFixtureDef);
+					missileSprite.setRotation(shipSprite.getRotation());
+					final int missileBaseVelocity = -10;
+					final PhysicsHandler missilePhysicsHandler = new PhysicsHandler(missileSprite);
+					//TODO: add ship speed
+					missilePhysicsHandler.setVelocity(missileBaseVelocity);
+
+					pScene.attachChild(missileSprite);
+					//					mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(missileSprite, missileBody, true, false));
+					return true;
+				}
+			});
 
 			// Flame
 			BuildableBitmapTextureAtlas flameBitmapTextureAtlas = new BuildableBitmapTextureAtlas(mGameActivity.getTextureManager(), 384, 128, TextureOptions.NEAREST);
@@ -110,38 +123,43 @@ public class GameEntityLoader implements IEntityLoader {
 				Debug.e(e);
 			}
 			final AnimatedSprite flameSprite = new AnimatedSprite(0, flameTiledTextureRegion.getHeight() / 2 + height / 2 + FLAME_OFFSET, flameTiledTextureRegion, vertexBufferObjectManager);
-			flameSprite.setTag(TAGS.Flame.ordinal());
+			flameSprite.setTag(EntityTags.Flame.ordinal());
 			flameSprite.animate(50);
 
-			sprite.attachChild(flameSprite);
-			flameSprite.setZIndex(3);
-			sprite.setZIndex(2);
+			shipSprite.attachChild(flameSprite);
+			// TODO: attach both to an entity and sort their Z index there
+			//			flameSprite.setZIndex(0);
+			//			shipSprite.setZIndex(1);
 
 			flameSprite.setScaleCenter(flameSprite.getWidth() / 2, 0);
 
-			flameSprite.registerUpdateHandler(new FlameUpdateHandler(mPhysicsWorld, flameSprite));
+			flameSprite.registerUpdateHandler(new FlameUpdateHandler(flameSprite, mGameActivity.getFixedStepPhysicsWorld()));
+			return shipSprite;
 		} else {//Planet
+			final Sprite planetSprite;
 			if (type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_EARTH)) {
-				sprite = loadSprite("gfx/earth.png", x, y, width, height, vertexBufferObjectManager);
-				sprite.setTag(TAGS.Earth.ordinal());
+				planetSprite = loadSprite("gfx/earth.png", x, y, width, height, vertexBufferObjectManager);
+				planetSprite.setTag(EntityTags.Earth.ordinal());
 			} else if (type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_JUPITER)) {
-				sprite = loadSprite("gfx/jupiter128.png", x, y, width, height, vertexBufferObjectManager);
-				sprite.setTag(TAGS.Jupiter.ordinal());
+				planetSprite = loadSprite("gfx/jupiter128.png", x, y, width, height, vertexBufferObjectManager);
+				planetSprite.setTag(EntityTags.Jupiter.ordinal());
 			} else if (type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_MARS)) {
-				sprite = loadSprite("gfx/mars.png", x, y, width, height, vertexBufferObjectManager);
-				sprite.setTag(TAGS.Mars.ordinal());
+				planetSprite = loadSprite("gfx/mars.png", x, y, width, height, vertexBufferObjectManager);
+				planetSprite.setTag(EntityTags.Mars.ordinal());
 			} else if (type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_VENUS)) {
-				sprite = loadSprite("gfx/venus64.png", x, y, width, height, vertexBufferObjectManager);
-				sprite.setTag(TAGS.Venus.ordinal());
+				planetSprite = loadSprite("gfx/venus64.png", x, y, width, height, vertexBufferObjectManager);
+				planetSprite.setTag(EntityTags.Venus.ordinal());
 			} else {
 				throw new IllegalArgumentException();
 			}
-			final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0, 0.8f);
-			objectFixtureDef.shape = new CircleShape();
-			final Body body = PhysicsFactory.createBoxBody(mPhysicsWorld, sprite, BodyDef.BodyType.StaticBody, objectFixtureDef);
-			mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(sprite, body, false, false));
+			//			final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0, 0.8f);
+			//			objectFixtureDef.shape = new CircleShape();
+			//			final Body body = PhysicsFactory.createCircleBody(mPhysicsWorld, planetSprite, BodyDef.BodyType.StaticBody, objectFixtureDef);
+			//			mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(planetSprite, body, false, false));
+
+			//						mScene.attachChild(planetSprite);
+			return planetSprite;
 		}
-		return sprite;
 	}
 
 	private Sprite loadSprite(String assetPath, float x, float y, float width, float height, VertexBufferObjectManager vertexBufferObjectManager) {

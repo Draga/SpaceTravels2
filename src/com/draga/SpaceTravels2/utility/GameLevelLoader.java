@@ -6,6 +6,7 @@ import com.draga.SpaceTravels2.GameActivity;
 import org.andengine.audio.music.Music;
 import org.andengine.audio.music.MusicFactory;
 import org.andengine.engine.camera.BoundCamera;
+import org.andengine.engine.camera.hud.HUD;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
@@ -16,7 +17,9 @@ import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.SAXUtils;
+import org.andengine.util.color.Color;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.level.IEntityLoader;
 import org.andengine.util.level.constants.LevelConstants;
@@ -34,16 +37,22 @@ import java.io.IOException;
 public class GameLevelLoader implements IEntityLoader {
 	private static final String TAG_ENTITY_ATTRIBUTE_MUSIC = "music";
 	private static final String TAG_ENTITY_ATTRIBUTE_BACKGROUND = "background";
+	private static final float SPEEDBAR_HEIGHT = 10;
+	private static final float SPEEDBAR_MARGINS = 10;
+	private static final float SPEEDBAR_WIDTH = 70;
+	private static final float SPEEDBAR_PADDING = 2;
 	private GameActivity mGameActivity;
 	private FixedStepPhysicsWorld mFixedStepPhysicsWorld;
 	private BoundCamera mBoundCamera;
 	private Scene mScene;
+	private VertexBufferObjectManager mVertexBufferObjectManager;
 
-	public GameLevelLoader(GameActivity gameActivity) {
-		this.mGameActivity = gameActivity;
-		this.mBoundCamera = mGameActivity.mBoundCamera;
+	public GameLevelLoader(GameActivity pGameActivity) {
+		mGameActivity = pGameActivity;
 		this.mFixedStepPhysicsWorld = mGameActivity.getFixedStepPhysicsWorld();
 		this.mScene = mGameActivity.getScene();
+		this.mVertexBufferObjectManager = mGameActivity.getVertexBufferObjectManager();
+		this.mBoundCamera = (BoundCamera) mGameActivity.getEngine().getCamera();
 	}
 
 	@Override
@@ -53,10 +62,10 @@ public class GameLevelLoader implements IEntityLoader {
 
 		mBoundCamera.setBounds(0, 0, width, height);
 
-		final Rectangle ground = new Rectangle(0, height - 2, width, 2, mGameActivity.getVertexBufferObjectManager());
-		final Rectangle roof = new Rectangle(0, 0, width, 2, mGameActivity.getVertexBufferObjectManager());
-		final Rectangle left = new Rectangle(0, 0, 2, height, mGameActivity.getVertexBufferObjectManager());
-		final Rectangle right = new Rectangle(width - 2, 0, 2, height, mGameActivity.getVertexBufferObjectManager());
+		final Rectangle ground = new Rectangle(0, height - 2, width, 2, mVertexBufferObjectManager);
+		final Rectangle roof = new Rectangle(0, 0, width, 2, mVertexBufferObjectManager);
+		final Rectangle left = new Rectangle(0, 0, 2, height, mVertexBufferObjectManager);
+		final Rectangle right = new Rectangle(width - 2, 0, 2, height, mVertexBufferObjectManager);
 
 		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 0.5f);
 		PhysicsFactory.createBoxBody(mFixedStepPhysicsWorld, ground, BodyDef.BodyType.StaticBody, wallFixtureDef);
@@ -70,10 +79,10 @@ public class GameLevelLoader implements IEntityLoader {
 		mScene.attachChild(right);
 
 		// Background
-		final ITextureRegion backgroundTextureRegion;
-		final ITexture backgroundTexture;
 		final String backgroundFile = SAXUtils.getAttribute(pAttributes, TAG_ENTITY_ATTRIBUTE_BACKGROUND, null);
 		if (backgroundFile != null) {
+			final ITextureRegion backgroundTextureRegion;
+			final ITexture backgroundTexture;
 			try {
 				backgroundTexture = new AssetBitmapTexture(mGameActivity.getTextureManager(), mGameActivity.getAssets(), "gfx/" + backgroundFile);
 			} catch (IOException e) {
@@ -82,8 +91,8 @@ public class GameLevelLoader implements IEntityLoader {
 			}
 			backgroundTexture.load();
 			backgroundTextureRegion = TextureRegionFactory.extractFromTexture(backgroundTexture);
-			final Sprite backgroundSprite = new Sprite(0, 0, width, height, backgroundTextureRegion, mGameActivity.getVertexBufferObjectManager());
-			mScene.attachChild(backgroundSprite);
+			final Sprite backgroundSprite = new Sprite(0, 0, width, height, backgroundTextureRegion, mVertexBufferObjectManager);
+			mGameActivity.getScene().attachChild(backgroundSprite);
 		}
 
 		// Music
@@ -101,6 +110,23 @@ public class GameLevelLoader implements IEntityLoader {
 			music.play();
 			mGameActivity.setMusic(music);
 		}
+
+		// Speed bar
+		final Rectangle speedBar = new Rectangle(SPEEDBAR_MARGINS, SPEEDBAR_MARGINS, SPEEDBAR_WIDTH, SPEEDBAR_HEIGHT, mVertexBufferObjectManager);
+		final Rectangle speedBarBackground = new Rectangle(SPEEDBAR_MARGINS - SPEEDBAR_PADDING, SPEEDBAR_MARGINS - SPEEDBAR_PADDING, SPEEDBAR_WIDTH + SPEEDBAR_PADDING * 2, SPEEDBAR_HEIGHT + SPEEDBAR_PADDING * 2, mVertexBufferObjectManager);
+
+		speedBar.setColor(Color.GREEN);
+		speedBarBackground.setColor(Color.WHITE);
+
+		speedBar.setScaleCenterX(0);
+
+		speedBar.setTag(EntityTags.SpeedBar.ordinal());
+		HUD speedBarHUD = new HUD();
+		speedBarHUD.attachChild(speedBarBackground);
+		speedBarHUD.attachChild(speedBar);
+		//		speedBarHUD.setTag(EntityTags.HUD.ordinal());
+		mBoundCamera.setHUD(speedBarHUD);
+
 		return mScene;
 	}
 }

@@ -24,7 +24,6 @@ import org.andengine.util.level.constants.LevelConstants;
 import java.io.IOException;
 
 public class GameActivity extends BaseGameActivity implements IAccelerationListener {
-	// Set by the MainActivity on StartIntent
 	public static final int CAMERA_WIDTH = 800;
 	public static final int CAMERA_HEIGHT = 480;
 	public static final String EXTRA_TAG_LEVEL = "level";
@@ -34,6 +33,11 @@ public class GameActivity extends BaseGameActivity implements IAccelerationListe
 	private Scene mScene;
 	private LevelLoader mLevelLoader;
 	private Music mMusic;
+	//	private AccelerometerHelper mAccelerometerHelper;
+
+	//	public GameActivity() {
+	//		mAccelerometerHelper = AccelerometerHelper.getInstance();
+	//	}
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
@@ -54,7 +58,7 @@ public class GameActivity extends BaseGameActivity implements IAccelerationListe
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		this.mScene = new Scene();
-		//		this.mScene.setBackground(new Background(0, 0, 0));
+
 		this.mFixedStepPhysicsWorld = new FixedStepPhysicsWorld(50, new Vector2(0, SensorManager.GRAVITY_EARTH), true, 3, 2);
 
 		// TODO: create resources in appropriate method
@@ -90,7 +94,6 @@ public class GameActivity extends BaseGameActivity implements IAccelerationListe
 	public void onAccelerationChanged(AccelerationData pAccelerationData) {
 		final Vector2 gravity = Vector2Pool.obtain(pAccelerationData.getX(), pAccelerationData.getY());
 		this.mFixedStepPhysicsWorld.setGravity(gravity);
-
 		Vector2Pool.recycle(gravity);
 	}
 
@@ -98,6 +101,7 @@ public class GameActivity extends BaseGameActivity implements IAccelerationListe
 	public void onResumeGame() {
 		super.onResumeGame();
 		if (mMusic != null) mMusic.resume();
+
 		this.enableAccelerationSensor(this);
 	}
 
@@ -105,7 +109,15 @@ public class GameActivity extends BaseGameActivity implements IAccelerationListe
 	public void onPauseGame() {
 		super.onPauseGame();
 		if (mMusic != null) mMusic.pause();
+
 		this.disableAccelerationSensor();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		if (this.isGameLoaded()) System.exit(0);
 	}
 
 	public FixedStepPhysicsWorld getFixedStepPhysicsWorld() {
