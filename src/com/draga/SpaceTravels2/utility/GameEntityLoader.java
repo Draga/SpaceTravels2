@@ -4,15 +4,14 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.draga.SpaceTravels2.GameActivity;
-import org.andengine.engine.handler.physics.PhysicsHandler;
+import org.andengine.audio.music.Music;
+import org.andengine.audio.music.MusicFactory;
 import org.andengine.entity.IEntity;
-import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
-import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
@@ -86,31 +85,23 @@ public class GameEntityLoader implements IEntityLoader {
 			//			mScene.attachChild(shipSprite);
 			mGameActivity.mBoundCamera.setChaseEntity(shipSprite);
 			mGameActivity.mBoundCamera.setBoundsEnabled(true);
-			// TODO: proper rotation handling
-			mScene.registerUpdateHandler(new ShipPhysicsConnector(mGameActivity.mBoundCamera, shipSprite, mPhysicsWorld, shipBody, mScene));
 
 			// Missile
-			mScene.setOnSceneTouchListener(new IOnSceneTouchListener() {
-				@Override
-				public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
-					//					final Sprite shipEntity = (Sprite) pScene.getChildByTag(TAGS.Ship.ordinal());
-					final int missileWidth = 16;
-					final int missileHeight = 32;
-					final float[] weaponCoordinates = shipSprite.convertLocalToSceneCoordinates(shipSprite.getWidth() / 2, -shipSprite.getHeight() / 2);
-					Sprite missileSprite = loadSprite("gfx/missile16x32.png", weaponCoordinates[0], weaponCoordinates[1], missileWidth, missileHeight, vertexBufferObjectManager);
-					//					final FixtureDef missileFixtureDef = PhysicsFactory.createFixtureDef(1, 0, 0.8f);
-					//					final Body missileBody = PhysicsFactory.createBoxBody(mPhysicsWorld, missileSprite, BodyDef.BodyType.KinematicBody, missileFixtureDef);
-					missileSprite.setRotation(shipSprite.getRotation());
-					final int missileBaseVelocity = -10;
-					final PhysicsHandler missilePhysicsHandler = new PhysicsHandler(missileSprite);
-					//TODO: add ship speed
-					missilePhysicsHandler.setVelocity(missileBaseVelocity);
+			mScene.setOnSceneTouchListener(new OnSceneTouchListener(shipBody, mScene, shipSprite, loadTexture("gfx/missile16x32.png"), vertexBufferObjectManager, mGameActivity.getSoundManager(), mGameActivity.getApplicationContext()));
 
-					pScene.attachChild(missileSprite);
-					//					mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(missileSprite, missileBody, true, false));
-					return true;
-				}
-			});
+			// Thruster sound
+			MusicFactory.setAssetBasePath("mfx/");
+			Music thrusterMusic;
+			try {
+				thrusterMusic = MusicFactory.createMusicFromAsset(mGameActivity.getMusicManager(), mGameActivity.getApplicationContext(), "rocketThruster.mp3");
+			} catch (final IOException e) {
+				Debug.e(e);
+				return null;
+			}
+			thrusterMusic.setLooping(true);
+			thrusterMusic.play();
+
+			mScene.registerUpdateHandler(new ShipPhysicsConnector(mGameActivity.mBoundCamera, shipSprite, mPhysicsWorld, shipBody, mScene, thrusterMusic));
 
 			// Flame
 			BuildableBitmapTextureAtlas flameBitmapTextureAtlas = new BuildableBitmapTextureAtlas(mGameActivity.getTextureManager(), 384, 128, TextureOptions.NEAREST);
@@ -163,6 +154,14 @@ public class GameEntityLoader implements IEntityLoader {
 	}
 
 	private Sprite loadSprite(String assetPath, float x, float y, float width, float height, VertexBufferObjectManager vertexBufferObjectManager) {
+		ITexture texture = loadTexture(assetPath);
+		if (texture == null) return null;
+		ITextureRegion textureRegion = TextureRegionFactory.extractFromTexture(texture);
+
+		return new Sprite(x, y, width, height, textureRegion, vertexBufferObjectManager);
+	}
+
+	private ITexture loadTexture(String assetPath) {
 		ITexture texture;
 		try {
 			texture = new AssetBitmapTexture(mGameActivity.getTextureManager(), mGameActivity.getAssets(), assetPath);
@@ -171,8 +170,6 @@ public class GameEntityLoader implements IEntityLoader {
 			return null;
 		}
 		texture.load();
-		ITextureRegion textureRegion = TextureRegionFactory.extractFromTexture(texture);
-
-		return new Sprite(x, y, width, height, textureRegion, vertexBufferObjectManager);
+		return texture;
 	}
 }

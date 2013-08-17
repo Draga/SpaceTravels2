@@ -3,6 +3,7 @@ package com.draga.SpaceTravels2.utility;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import org.andengine.audio.music.Music;
 import org.andengine.engine.camera.BoundCamera;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.scene.Scene;
@@ -25,13 +26,15 @@ public class ShipPhysicsConnector extends PhysicsConnector {
 	private BoundCamera mBoundCamera;
 	private Sprite mSprite;
 	private Scene mScene;
+	private Music mThrusterMusic;
 
-	public ShipPhysicsConnector(BoundCamera pBoundCamera, Sprite pSprite, PhysicsWorld pPhysicsWorld, Body pBody, Scene mScene) {
+	public ShipPhysicsConnector(BoundCamera pBoundCamera, Sprite pSprite, PhysicsWorld pPhysicsWorld, Body pBody, Scene mScene, Music pThrusterSound) {
 		super(pSprite, pBody);
 		this.mPhysicsWorld = pPhysicsWorld;
 		this.mBoundCamera = pBoundCamera;
 		this.mSprite = pSprite;
 		this.mScene = mScene;
+		this.mThrusterMusic = pThrusterSound;
 	}
 
 	@Override
@@ -61,6 +64,8 @@ public class ShipPhysicsConnector extends PhysicsConnector {
 		final float speedOnMax = this.mBody.getLinearVelocity().len() / MAX_SPEED;
 		speedBar.setScaleX(speedOnMax);
 		speedBar.setColor(speedOnMax, 1 - speedOnMax, 0);
+
+		mThrusterMusic.setVolume(speedOnMax);
 	}
 
 	private void applyPlanetsGravity(float pSecondsElapsed) {
@@ -73,12 +78,6 @@ public class ShipPhysicsConnector extends PhysicsConnector {
 			}
 		}
 	}
-
-	//	private void updatePosition(final float pSecondsElapsed) {
-	//		final float x = this.mSprite.getX() + mPhysicsWorld.getGravity().x * pSecondsElapsed*SPEED;
-	//		final float y = this.mSprite.getY() + mPhysicsWorld.getGravity().y * pSecondsElapsed*SPEED;
-	//		this.mSprite.setPosition(x, y);
-	//	}
 
 	private void updateRotation(float pSecondsElapsed) {
 		float thrustRotation = new com.badlogic.gdx.math.Vector2(-mPhysicsWorld.getGravity().y, mPhysicsWorld.getGravity().x).angle();
