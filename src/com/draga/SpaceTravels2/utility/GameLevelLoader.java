@@ -47,12 +47,12 @@ public class GameLevelLoader implements IEntityLoader {
 	private Scene mScene;
 	private VertexBufferObjectManager mVertexBufferObjectManager;
 
-	public GameLevelLoader(GameActivity pGameActivity) {
-		mGameActivity = pGameActivity;
-		this.mFixedStepPhysicsWorld = mGameActivity.getFixedStepPhysicsWorld();
+	public GameLevelLoader() {
+		mGameActivity = ResourcesManager.getInstance().mActivity;
+		this.mFixedStepPhysicsWorld = ResourcesManager.getInstance().mFixedStepPhysicsWorld;
 		this.mScene = mGameActivity.getScene();
-		this.mVertexBufferObjectManager = mGameActivity.getVertexBufferObjectManager();
-		this.mBoundCamera = (BoundCamera) mGameActivity.getEngine().getCamera();
+		this.mVertexBufferObjectManager = ResourcesManager.getInstance().mVertexBufferObjectManager;
+		this.mBoundCamera = ResourcesManager.getInstance().mBoundCamera;
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class GameLevelLoader implements IEntityLoader {
 			}
 			music.setLooping(true);
 			music.play();
-			mGameActivity.setMusic(music);
+			mGameActivity.addMusic(music);
 		}
 
 		// Speed bar

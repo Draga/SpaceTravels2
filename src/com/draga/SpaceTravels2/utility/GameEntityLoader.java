@@ -10,8 +10,8 @@ import org.andengine.entity.IEntity;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
-import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
@@ -32,10 +32,6 @@ import org.xml.sax.Attributes;
 
 import java.io.IOException;
 
-//import com.badlogic.gdx.physics.box2d.Body;
-//import com.badlogic.gdx.physics.box2d.BodyDef;
-//import com.badlogic.gdx.physics.box2d.FixtureDef;
-
 /**
  * Created with IntelliJ IDEA.
  * User: Draga86
@@ -45,7 +41,7 @@ import java.io.IOException;
  */
 public class GameEntityLoader implements IEntityLoader {
 	//the y offset of the flame
-	public static final float FLAME_OFFSET = -16;
+	public static final float THRUSTER_OFFSET = -16;
 	private static final String TAG_ENTITY_ATTRIBUTE_X = "x";
 	private static final String TAG_ENTITY_ATTRIBUTE_Y = "y";
 	private static final String TAG_ENTITY_ATTRIBUTE_WIDTH = "width";
@@ -56,75 +52,76 @@ public class GameEntityLoader implements IEntityLoader {
 	private static final String TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_JUPITER = "jupiter";
 	private static final String TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_MARS = "mars";
 	private static final String TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_VENUS = "venus";
-	private final Scene mScene;
-	private PhysicsWorld mPhysicsWorld;
-	private GameActivity mGameActivity;
 
-	public GameEntityLoader(GameActivity gameActivity) {
-		this.mGameActivity = gameActivity;
-		this.mScene = mGameActivity.getScene();
-		this.mPhysicsWorld = gameActivity.getFixedStepPhysicsWorld();
+	public GameEntityLoader() {
 	}
 
 	@Override
 	public IEntity onLoadEntity(final String pEntityName, final Attributes pAttributes) {
+		GameActivity gameActivity = ResourcesManager.getInstance().mActivity;
+		FixedStepPhysicsWorld fixedStepPhysicsWorld = gameActivity.getFixedStepPhysicsWorld();
+		VertexBufferObjectManager vertexBufferObjectManager = ResourcesManager.getInstance().mVertexBufferObjectManager;
+		final Scene scene = ResourcesManager.getInstance().mActivity.getScene();
+
 		final int width = SAXUtils.getIntAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_WIDTH);
 		final int height = SAXUtils.getIntAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_HEIGHT);
 		final int x = SAXUtils.getIntAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_X) - width / 2;
 		final int y = SAXUtils.getIntAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_Y) - height / 2;
 		final String type = SAXUtils.getAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_TYPE);
 
-		final VertexBufferObjectManager vertexBufferObjectManager = mGameActivity.getVertexBufferObjectManager();
 
 		if (type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_SHIP)) {
 			final Sprite shipSprite = loadSprite("gfx/ship64.png", x, y, width, height, vertexBufferObjectManager);
 			shipSprite.setTag(EntityTags.Ship.ordinal());
+			shipSprite.setZIndex(2);
 			final FixtureDef shipFixtureDef = PhysicsFactory.createFixtureDef(1, 0, 0.8f);
-			final Body shipBody = PhysicsFactory.createBoxBody(mPhysicsWorld, shipSprite, BodyDef.BodyType.DynamicBody, shipFixtureDef);
+			final Body shipBody = PhysicsFactory.createBoxBody(fixedStepPhysicsWorld, shipSprite, BodyDef.BodyType.DynamicBody, shipFixtureDef);
+			shipBody.setUserData(EntityTags.Ship);
 			//			mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(shipSprite, shipBody, true, false));
 			//			mScene.attachChild(shipSprite);
-			mGameActivity.mBoundCamera.setChaseEntity(shipSprite);
-			mGameActivity.mBoundCamera.setBoundsEnabled(true);
-
-			// Missile
-			mScene.setOnSceneTouchListener(new OnSceneTouchListener(shipBody, mScene, shipSprite, loadTexture("gfx/missile16x32.png"), vertexBufferObjectManager, mGameActivity.getSoundManager(), mGameActivity.getApplicationContext()));
+			gameActivity.mBoundCamera.setChaseEntity(shipSprite);
+			gameActivity.mBoundCamera.setBoundsEnabled(true);
 
 			// Thruster sound
 			MusicFactory.setAssetBasePath("mfx/");
 			Music thrusterMusic;
 			try {
-				thrusterMusic = MusicFactory.createMusicFromAsset(mGameActivity.getMusicManager(), mGameActivity.getApplicationContext(), "rocketThruster.mp3");
+				thrusterMusic = MusicFactory.createMusicFromAsset(gameActivity.getMusicManager(), gameActivity.getApplicationContext(), "rocketThruster.ogg");
 			} catch (final IOException e) {
 				Debug.e(e);
 				return null;
 			}
 			thrusterMusic.setLooping(true);
 			thrusterMusic.play();
+			gameActivity.addMusic(thrusterMusic);
 
-			mScene.registerUpdateHandler(new ShipPhysicsConnector(mGameActivity.mBoundCamera, shipSprite, mPhysicsWorld, shipBody, mScene, thrusterMusic));
+			scene.registerUpdateHandler(new ShipPhysicsConnector(gameActivity.mBoundCamera, shipSprite, fixedStepPhysicsWorld, shipBody, scene, thrusterMusic));
 
-			// Flame
-			BuildableBitmapTextureAtlas flameBitmapTextureAtlas = new BuildableBitmapTextureAtlas(mGameActivity.getTextureManager(), 384, 128, TextureOptions.NEAREST);
+			// Thruster
+			BuildableBitmapTextureAtlas thrusterBitmapTextureAtlas = new BuildableBitmapTextureAtlas(gameActivity.getTextureManager(), 384, 128, TextureOptions.NEAREST);
 			BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-			TiledTextureRegion flameTiledTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(flameBitmapTextureAtlas, mGameActivity, "flame.png", 6, 2);
+			TiledTextureRegion thrusterTiledTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(thrusterBitmapTextureAtlas, gameActivity, "thruster.png", 6, 2);
 			try {
-				flameBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));
-				flameBitmapTextureAtlas.load();
+				thrusterBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));
+				thrusterBitmapTextureAtlas.load();
 			} catch (ITextureAtlasBuilder.TextureAtlasBuilderException e) {
 				Debug.e(e);
 			}
-			final AnimatedSprite flameSprite = new AnimatedSprite(0, flameTiledTextureRegion.getHeight() / 2 + height / 2 + FLAME_OFFSET, flameTiledTextureRegion, vertexBufferObjectManager);
-			flameSprite.setTag(EntityTags.Flame.ordinal());
-			flameSprite.animate(50);
+			final AnimatedSprite thrusterSprite = new AnimatedSprite(0, thrusterTiledTextureRegion.getHeight() / 2 + height / 2 + THRUSTER_OFFSET, thrusterTiledTextureRegion, vertexBufferObjectManager);
+			thrusterSprite.setTag(EntityTags.Thruster.ordinal());
+			thrusterSprite.animate(50);
 
-			shipSprite.attachChild(flameSprite);
+			// Missile
+			scene.setOnSceneTouchListener(new OnSceneTouchListener(shipBody, shipSprite, loadTexture("gfx/missile16x32.png"), thrusterTiledTextureRegion));
+
+			shipSprite.attachChild(thrusterSprite);
 			// TODO: attach both to an entity and sort their Z index there
-			//			flameSprite.setZIndex(0);
+			//			thrusterSprite.setZIndex(0);
 			//			shipSprite.setZIndex(1);
 
-			flameSprite.setScaleCenter(flameSprite.getWidth() / 2, 0);
+			thrusterSprite.setScaleCenter(thrusterSprite.getWidth() / 2, 0);
 
-			flameSprite.registerUpdateHandler(new FlameUpdateHandler(flameSprite, mGameActivity.getFixedStepPhysicsWorld()));
+			thrusterSprite.registerUpdateHandler(new ThrusterUpdateHandler(thrusterSprite, gameActivity.getFixedStepPhysicsWorld()));
 			return shipSprite;
 		} else {//Planet
 			final Sprite planetSprite;
@@ -146,6 +143,8 @@ public class GameEntityLoader implements IEntityLoader {
 			//			final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0, 0.8f);
 			//			objectFixtureDef.shape = new CircleShape();
 			//			final Body body = PhysicsFactory.createCircleBody(mPhysicsWorld, planetSprite, BodyDef.BodyType.StaticBody, objectFixtureDef);
+
+			//			body.setUserData(EntityTags.Ship);
 			//			mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(planetSprite, body, false, false));
 
 			//						mScene.attachChild(planetSprite);
@@ -164,7 +163,7 @@ public class GameEntityLoader implements IEntityLoader {
 	private ITexture loadTexture(String assetPath) {
 		ITexture texture;
 		try {
-			texture = new AssetBitmapTexture(mGameActivity.getTextureManager(), mGameActivity.getAssets(), assetPath);
+			texture = new AssetBitmapTexture(ResourcesManager.getInstance().mActivity.getTextureManager(), ResourcesManager.getInstance().mActivity.getAssets(), assetPath);
 		} catch (IOException e) {
 			Debug.e(e);
 			return null;

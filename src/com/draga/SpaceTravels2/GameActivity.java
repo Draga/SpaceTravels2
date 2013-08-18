@@ -5,6 +5,7 @@ import android.widget.Toast;
 import com.badlogic.gdx.math.Vector2;
 import com.draga.SpaceTravels2.utility.GameEntityLoader;
 import com.draga.SpaceTravels2.utility.GameLevelLoader;
+import com.draga.SpaceTravels2.utility.ResourcesManager;
 import org.andengine.audio.music.Music;
 import org.andengine.engine.camera.BoundCamera;
 import org.andengine.engine.options.EngineOptions;
@@ -22,6 +23,8 @@ import org.andengine.util.level.LevelLoader;
 import org.andengine.util.level.constants.LevelConstants;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class GameActivity extends BaseGameActivity implements IAccelerationListener {
 	public static final int CAMERA_WIDTH = 800;
@@ -32,7 +35,7 @@ public class GameActivity extends BaseGameActivity implements IAccelerationListe
 	private FixedStepPhysicsWorld mFixedStepPhysicsWorld;
 	private Scene mScene;
 	private LevelLoader mLevelLoader;
-	private Music mMusic;
+	private ArrayList<Music> mMusics;
 	//	private AccelerometerHelper mAccelerometerHelper;
 
 	//	public GameActivity() {
@@ -46,6 +49,7 @@ public class GameActivity extends BaseGameActivity implements IAccelerationListe
 		EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), mBoundCamera);
 		engineOptions.getAudioOptions().setNeedsMusic(true);
 		engineOptions.getAudioOptions().setNeedsSound(true);
+		mMusics = new ArrayList<Music>();
 		return engineOptions;
 	}
 
@@ -62,15 +66,19 @@ public class GameActivity extends BaseGameActivity implements IAccelerationListe
 
 		this.mFixedStepPhysicsWorld = new FixedStepPhysicsWorld(50, new Vector2(0, SensorManager.GRAVITY_EARTH), true, 3, 2);
 
+		ResourcesManager.prepareManager(this.getEngine(), this, mBoundCamera, this.getVertexBufferObjectManager(), this.mFixedStepPhysicsWorld);
+
 		// TODO: create resources in appropriate method
 		this.mLevelLoader = new LevelLoader();
 		mLevelLoader.setAssetBasePath("level/");
 
-		mLevelLoader.registerEntityLoader(LevelConstants.TAG_LEVEL, new GameLevelLoader(this));
+		mLevelLoader.registerEntityLoader(LevelConstants.TAG_LEVEL, new GameLevelLoader());
 
-		mLevelLoader.registerEntityLoader(TAG_ENTITY, new GameEntityLoader(this));
+		mLevelLoader.registerEntityLoader(TAG_ENTITY, new GameEntityLoader());
 
 		this.mScene.registerUpdateHandler(this.mFixedStepPhysicsWorld);
+
+		//		mFixedStepPhysicsWorld.setContactListener(new GameContactListener());
 
 		pOnCreateSceneCallback.onCreateSceneFinished(mScene);
 	}
@@ -101,7 +109,8 @@ public class GameActivity extends BaseGameActivity implements IAccelerationListe
 	@Override
 	public void onResumeGame() {
 		super.onResumeGame();
-		if (mMusic != null) mMusic.resume();
+		Iterator musicsIterator = mMusics.iterator();
+		while (musicsIterator.hasNext()) ((Music) musicsIterator.next()).resume();
 
 		this.enableAccelerationSensor(this);
 	}
@@ -109,7 +118,8 @@ public class GameActivity extends BaseGameActivity implements IAccelerationListe
 	@Override
 	public void onPauseGame() {
 		super.onPauseGame();
-		if (mMusic != null) mMusic.pause();
+		Iterator musicsIterator = mMusics.iterator();
+		while (musicsIterator.hasNext()) ((Music) musicsIterator.next()).pause();
 
 		this.disableAccelerationSensor();
 	}
@@ -129,8 +139,8 @@ public class GameActivity extends BaseGameActivity implements IAccelerationListe
 		return mScene;
 	}
 
-	public void setMusic(Music music) {
-		this.mMusic = music;
+	public void addMusic(Music music) {
+		this.mMusics.add(music);
 	}
 
 	//	private void addShip(float pX, float pY) {

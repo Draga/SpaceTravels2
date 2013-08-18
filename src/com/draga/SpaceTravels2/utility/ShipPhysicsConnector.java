@@ -28,13 +28,13 @@ public class ShipPhysicsConnector extends PhysicsConnector {
 	private Scene mScene;
 	private Music mThrusterMusic;
 
-	public ShipPhysicsConnector(BoundCamera pBoundCamera, Sprite pSprite, PhysicsWorld pPhysicsWorld, Body pBody, Scene mScene, Music pThrusterSound) {
+	public ShipPhysicsConnector(BoundCamera pBoundCamera, Sprite pSprite, PhysicsWorld pPhysicsWorld, Body pBody, Scene mScene, Music pThrusterMusic) {
 		super(pSprite, pBody);
 		this.mPhysicsWorld = pPhysicsWorld;
 		this.mBoundCamera = pBoundCamera;
 		this.mSprite = pSprite;
 		this.mScene = mScene;
-		this.mThrusterMusic = pThrusterSound;
+		this.mThrusterMusic = pThrusterMusic;
 	}
 
 	@Override

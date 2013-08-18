@@ -12,7 +12,7 @@ import org.andengine.extension.physics.box2d.PhysicsWorld;
  * Time: 21:44
  * To change this template use File | Settings | File Templates.
  */
-public class FlameUpdateHandler implements IUpdateHandler {
+public class ThrusterUpdateHandler implements IUpdateHandler {
 	private static final float FLAME_SIZE_MIN_SCALE = 0.3f;
 	//	private static final float FLAME_ANIMATION_MAX_FRAME_DURATION = 200;
 	//	private static final float FLAME_ANIMATION_MIN_FRAME_DURATION = 10;
@@ -22,7 +22,7 @@ public class FlameUpdateHandler implements IUpdateHandler {
 	//	private PhysicsWorld mPhysicsWorld;
 	private AnimatedSprite mFlameSprite;
 
-	public FlameUpdateHandler(AnimatedSprite pFlameSprite, PhysicsWorld pPhysicsWorld) {
+	public ThrusterUpdateHandler(AnimatedSprite pFlameSprite, PhysicsWorld pPhysicsWorld) {
 		this.mPhysicsWold = pPhysicsWorld;
 		this.mFlameSprite = pFlameSprite;
 	}

@@ -8,5 +8,5 @@ package com.draga.SpaceTravels2.utility;
  * To change this template use File | Settings | File Templates.
  */
 public enum EntityTags {
-	Ship, Flame, Jupiter, Mars, Venus, Earth, SpeedBar/*, HUD*/;
+	Ship, Thruster, Jupiter, Mars, Venus, Earth, SpeedBar/*, HUD*/, Missile, MissileThruster;
 }
