@@ -6,7 +6,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import org.andengine.audio.music.Music;
 import org.andengine.engine.camera.BoundCamera;
 import org.andengine.entity.IEntity;
-import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
@@ -25,15 +24,15 @@ public class ShipPhysicsConnector extends PhysicsConnector {
 	//		private PhysicsWorld mPhysicsWorld;
 	private BoundCamera mBoundCamera;
 	private Sprite mSprite;
-	private Scene mScene;
+	//	private Scene mScene;
 	private Music mThrusterMusic;
 
-	public ShipPhysicsConnector(BoundCamera pBoundCamera, Sprite pSprite, PhysicsWorld pPhysicsWorld, Body pBody, Scene mScene, Music pThrusterMusic) {
-		super(pSprite, pBody);
+	public ShipPhysicsConnector(BoundCamera pBoundCamera, Sprite pSprite, PhysicsWorld pPhysicsWorld, Body pBody/*, Scene mScene*/, Music pThrusterMusic) {
+		super(pSprite, pBody, true, true);
 		this.mPhysicsWorld = pPhysicsWorld;
 		this.mBoundCamera = pBoundCamera;
 		this.mSprite = pSprite;
-		this.mScene = mScene;
+		//		this.mScene = mScene;
 		this.mThrusterMusic = pThrusterMusic;
 	}
 
@@ -46,7 +45,7 @@ public class ShipPhysicsConnector extends PhysicsConnector {
 
 		super.onUpdate(pSecondsElapsed);
 
-		applyPlanetsGravity(pSecondsElapsed);
+		//		applyPlanetsGravity(pSecondsElapsed);
 
 		//updates the camera chasing the ship
 		mBoundCamera.onUpdate(pSecondsElapsed);
@@ -63,21 +62,42 @@ public class ShipPhysicsConnector extends PhysicsConnector {
 		final IEntity speedBar = mBoundCamera.getHUD().getChildByTag(EntityTags.SpeedBar.ordinal());
 		final float speedOnMax = this.mBody.getLinearVelocity().len() / MAX_SPEED;
 		speedBar.setScaleX(speedOnMax);
-		speedBar.setColor(speedOnMax, 1 - speedOnMax, 0);
+		// Color transition from green(0,1,0) to yellow (1,1,0) to red (1,0,0)
+		speedBar.setColor(Math.min(1, speedOnMax * 2), Math.min(1, 2 - speedOnMax * 2), 0);
 
 		mThrusterMusic.setVolume(speedOnMax);
 	}
 
-	private void applyPlanetsGravity(float pSecondsElapsed) {
-		for (int i = 0; i < EntityTags.values().length; i++) {
-			final EntityTags entityTag = EntityTags.values()[i];
-			IEntity entity = mScene.getChildByTag(entityTag.ordinal());
-			switch (entityTag) {
-				case Earth:
-					break;
-			}
-		}
-	}
+	//	private void applyPlanetsGravity(float pSecondsElapsed) {
+	//	for(Body currentBody : this.mPhysicsWorld.getBodies()){
+	//		if(currentBody.getType() == BodyType.DYNAMIC_BODY){  //Make sure this body Moves
+	//			Vector2 bodyPos = currentBody.getWorldCenter();  //Get its center position
+	//			Vector2 forceAcceleration = new Vector2(); //used for cumulative acceleration, to save some overhead
+	//			for(Body mass : gravitatingBodies){
+	//				Vector2 massPos = mass.getWorldCenter();
+	//				if(massPos.dist(bodyPos) < (Insert your maximum attraction distance here)){
+	//					float massMass = mass.getMass();  //get the mass of the body for accurate attraction Caclulation
+	//					Vector2 dir = bodyPos.sub(massPos); //get the direction from the mass to the body
+	//					dist = dir.len2(); //gives the distance squared (uses less processing, and it would be squared later anyway)
+	//					dir = dir.nor(); //normalize the direction
+	//					double forceMagnitude = (YOUR_GRAVITATIONAL_CONSTANT)*(massMass/dist);
+	//					//Your gravitational constant should be rather small.  The one in the universe is something like 0.000000089, but you'll want something closer to 0.9 or so. just mess around with it
+	//
+	//					forceAcceleration = forceAcceleration.add(dir.mul(forceMagnitude));
+	//				}
+	//			}
+	//			currentBody.applyForce(forceAcceleration);
+	//		}
+	//	}
+	//		for (int i = 0; i < EntityTags.values().length; i++) {
+	//			final EntityTags entityTag = EntityTags.values()[i];
+	//			IEntity entity = mScene.getChildByTag(entityTag.ordinal());
+	//			switch (entityTag) {
+	//				case Earth:
+	//					break;
+	//			}
+	//		}
+	//	}
 
 	private void updateRotation(float pSecondsElapsed) {
 		float thrustRotation = new com.badlogic.gdx.math.Vector2(-mPhysicsWorld.getGravity().y, mPhysicsWorld.getGravity().x).angle();

@@ -63,7 +63,7 @@ public class MissileCollisionHandler implements IUpdateHandler {
 	}
 
 	private void explode() {
-		ResourcesManager.getInstance().mActivity.getScene().detachChild(mCheckShape);
+		ResourcesManager.getInstance().getActivity().getScene().detachChild(mCheckShape);
 	}
 
 	@Override
