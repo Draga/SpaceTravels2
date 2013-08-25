@@ -5,7 +5,6 @@ import com.draga.SpaceTravels2.entity.Planet;
 import com.draga.SpaceTravels2.entity.Ship;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
@@ -21,8 +20,6 @@ import org.xml.sax.Attributes;
  * To change this template use File | Settings | File Templates.
  */
 public class GameEntityLoader implements IEntityLoader {
-	//the y offset of the flame
-	public static final float THRUSTER_OFFSET = -16;
 	private static final String TAG_ENTITY_ATTRIBUTE_X = "x";
 	private static final String TAG_ENTITY_ATTRIBUTE_Y = "y";
 	private static final String TAG_ENTITY_ATTRIBUTE_WIDTH = "width";
@@ -54,41 +51,29 @@ public class GameEntityLoader implements IEntityLoader {
 		final EntityTags entityTag = EntityTags.valueOf(type);
 		switch (entityTag) {
 			case Ship:
-				final Ship ship = new Ship(x, y, width, height, resourcesManager.getShipTextureRegion(), vertexBufferObjectManager, gameActivity.mBoundCamera);
+				final Ship ship = new Ship(x, y, width, height, resourcesManager.getShipTextureRegion());
 				//			mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(shipSprite, shipBody, true, false));
 				//			mScene.attachChild(shipSprite);
 				gameActivity.mBoundCamera.setChaseEntity(ship);
 				gameActivity.mBoundCamera.setBoundsEnabled(true);
 
 
-				scene.registerUpdateHandler(new ShipPhysicsConnector(gameActivity.mBoundCamera, ship, fixedStepPhysicsWorld, ship.getBody(), resourcesManager.getThrusterMusic()));
+				//				scene.registerUpdateHandler(new ShipPhysicsConnector(gameActivity.mBoundCamera, ship, fixedStepPhysicsWorld, ship.getBody(), resourcesManager.getThrusterMusic()));
+				//				scene.registerUpdateHandler(new PhysicsConnector(ship, ship.getBody(),true,true));
 
-				// Thruster
-				final AnimatedSprite thrusterSprite = new AnimatedSprite(0, resourcesManager.getThrusterTiledTextureRegion().getHeight() / 2 + height / 2 + THRUSTER_OFFSET,
-						resourcesManager.getThrusterTiledTextureRegion(), vertexBufferObjectManager);
-				thrusterSprite.setTag(EntityTags.Thruster.ordinal());
-				thrusterSprite.animate(50);
-
-				ship.attachChild(thrusterSprite);
-				// TODO: attach both to an entity and sort their Z index there
-				//			thrusterSprite.setZIndex(0);
-				//			shipSprite.setZIndex(1);
-
-				thrusterSprite.setScaleCenter(thrusterSprite.getWidth() / 2, 0);
-
-				thrusterSprite.registerUpdateHandler(new ThrusterUpdateHandler(thrusterSprite, gameActivity.getFixedStepPhysicsWorld()));
+				//				thrusterSprite.registerUpdateHandler(new ThrusterUpdateHandler(thrusterSprite, gameActivity.getFixedStepPhysicsWorld()));
 				return ship;
 			case Venus:
-				Sprite sprite = new Planet(x, y, width, height, resourcesManager.getVenusTextureRegion(), vertexBufferObjectManager, entityTag);
+				Sprite sprite = new Planet(x, y, width, height, resourcesManager.getVenusTextureRegion(), vertexBufferObjectManager, entityTag, null);
 				return sprite;
 			case Earth:
-				sprite = new Planet(x, y, width, height, resourcesManager.getEarthTextureRegion(), vertexBufferObjectManager, entityTag);
+				sprite = new Planet(x, y, width, height, resourcesManager.getEarthTextureRegion(), vertexBufferObjectManager, entityTag, null);
 				return sprite;
 			case Jupiter:
-				sprite = new Planet(x, y, width, height, resourcesManager.getJupiterTextureRegion(), vertexBufferObjectManager, entityTag);
+				sprite = new Planet(x, y, width, height, resourcesManager.getJupiterTextureRegion(), vertexBufferObjectManager, entityTag, null);
 				return sprite;
 			case Mars:
-				sprite = new Planet(x, y, width, height, resourcesManager.getMarsTextureRegion(), vertexBufferObjectManager, entityTag);
+				sprite = new Planet(x, y, width, height, resourcesManager.getMarsTextureRegion(), vertexBufferObjectManager, entityTag, null);
 				return sprite;
 			default:
 				throw new IllegalArgumentException();

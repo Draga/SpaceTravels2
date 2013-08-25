@@ -3,6 +3,7 @@ package com.draga.SpaceTravels2;
 import android.hardware.SensorManager;
 import android.widget.Toast;
 import com.badlogic.gdx.math.Vector2;
+import com.draga.SpaceTravels2.utility.GameContactListener;
 import com.draga.SpaceTravels2.utility.GameEntityLoader;
 import com.draga.SpaceTravels2.utility.GameLevelLoader;
 import com.draga.SpaceTravels2.utility.ResourcesManager;
@@ -12,6 +13,7 @@ import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.util.FPSLogger;
+import org.andengine.extension.debugdraw.DebugRenderer;
 import org.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
 import org.andengine.extension.physics.box2d.util.Vector2Pool;
 import org.andengine.input.sensor.acceleration.AccelerationData;
@@ -57,11 +59,11 @@ public class GameActivity extends BaseGameActivity implements IAccelerationListe
 
 	@Override
 	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback) {
-		this.mEngine.registerUpdateHandler(new FPSLogger());
+		mEngine.registerUpdateHandler(new FPSLogger());
 
-		this.mScene = new Scene();
+		mScene = new Scene();
 
-		this.mFixedStepPhysicsWorld = new FixedStepPhysicsWorld(50, new Vector2(0, SensorManager.GRAVITY_EARTH), true, 3, 2);
+		mFixedStepPhysicsWorld = new FixedStepPhysicsWorld(50, new Vector2(0, SensorManager.GRAVITY_EARTH), true, 3, 2);
 
 		ResourcesManager.prepareManager(this.getEngine(), this, mBoundCamera, this.getVertexBufferObjectManager(), this.mFixedStepPhysicsWorld, mScene);
 
@@ -75,9 +77,9 @@ public class GameActivity extends BaseGameActivity implements IAccelerationListe
 
 		mLevelLoader.registerEntityLoader(TAG_ENTITY, new GameEntityLoader());
 
-		this.mScene.registerUpdateHandler(this.mFixedStepPhysicsWorld);
+		mScene.registerUpdateHandler(mFixedStepPhysicsWorld);
 
-		//		mFixedStepPhysicsWorld.setContactListener(new GameContactListener());
+		mFixedStepPhysicsWorld.setContactListener(new GameContactListener());
 
 		pOnCreateSceneCallback.onCreateSceneFinished(mScene);
 	}
@@ -90,6 +92,7 @@ public class GameActivity extends BaseGameActivity implements IAccelerationListe
 			Debug.e(e);
 			throw e;
 		}
+		mScene.attachChild(new DebugRenderer(mFixedStepPhysicsWorld, getVertexBufferObjectManager()));
 		pOnPopulateSceneCallback.onPopulateSceneFinished();
 	}
 

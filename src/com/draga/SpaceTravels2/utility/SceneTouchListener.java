@@ -23,7 +23,7 @@ public class SceneTouchListener implements IOnSceneTouchListener {
 	private Scene mScene;
 	private Ship mShip;
 	private GameActivity mGameActivity;
-	private ResourcesManager resourcesManager = ResourcesManager.getInstance();
+	private final static ResourcesManager resourcesManager = ResourcesManager.getInstance();
 
 	public SceneTouchListener(Ship pShip) {
 		this.mShip = pShip;
@@ -39,10 +39,10 @@ public class SceneTouchListener implements IOnSceneTouchListener {
 
 		ResourcesManager.getInstance().getMissileSound().play();
 		//					final Sprite shipEntity = (Sprite) pScene.getChildByTag(TAGS.Ship.ordinal());
-		final float[] MissileCoordinates = mShip.convertLocalToSceneCoordinates(mShip.getWidth() / 2 - Missile.MISSILE_WIDTH / 2, mShip.getHeight() / 2);
+		//		final float[] missileCoordinates = mShip.convertLocalToSceneCoordinates(mShip.getWidth()/2-Missile.WIDTH/2, mShip.getHeight()/2-Missile.HEIGHT/2);
 
 		//TODO:use spritebatch?
-		Sprite missileSprite = new Missile(MissileCoordinates, mShip);
+		Sprite missileSprite = new Missile(mShip);
 		mScene.attachChild(missileSprite);
 		ResourcesManager.getInstance().getScene().sortChildren();
 

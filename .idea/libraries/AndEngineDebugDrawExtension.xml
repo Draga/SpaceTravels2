@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="AndEngineDebugDrawExtension">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../AndEngineDebugDrawExtension" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../AndEngineDebugDrawExtension/gen" />
+      <root url="file://$PROJECT_DIR$/../AndEngineDebugDrawExtension/src" />
+    </SOURCES>
+  </library>
+</component>

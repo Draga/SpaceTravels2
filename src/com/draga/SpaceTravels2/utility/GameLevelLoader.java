@@ -1,8 +1,7 @@
 package com.draga.SpaceTravels2.utility;
 
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.draga.SpaceTravels2.GameActivity;
+import com.draga.SpaceTravels2.entity.Wall;
 import org.andengine.engine.camera.BoundCamera;
 import org.andengine.engine.camera.hud.HUD;
 import org.andengine.entity.IEntity;
@@ -10,7 +9,6 @@ import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
-import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.SAXUtils;
 import org.andengine.util.color.Color;
@@ -55,16 +53,10 @@ public class GameLevelLoader implements IEntityLoader {
 
 		mBoundCamera.setBounds(0, 0, width, height);
 
-		final Rectangle ground = new Rectangle(0, height - 2, width, 2, mVertexBufferObjectManager);
-		final Rectangle roof = new Rectangle(0, 0, width, 2, mVertexBufferObjectManager);
-		final Rectangle left = new Rectangle(0, 0, 2, height, mVertexBufferObjectManager);
-		final Rectangle right = new Rectangle(width - 2, 0, 2, height, mVertexBufferObjectManager);
-
-		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(1, 0, 0.5f, false, (short) EntityTags.Wall.ordinal(), (short) EntityTags.Wall.ordinal(), (short) 0);
-		PhysicsFactory.createBoxBody(mFixedStepPhysicsWorld, ground, BodyDef.BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(mFixedStepPhysicsWorld, roof, BodyDef.BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(mFixedStepPhysicsWorld, left, BodyDef.BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(mFixedStepPhysicsWorld, right, BodyDef.BodyType.StaticBody, wallFixtureDef);
+		final Rectangle ground = new Wall(0, height - 2, width, 2, mVertexBufferObjectManager);
+		final Rectangle roof = new Wall(0, 0, width, 2, mVertexBufferObjectManager);
+		final Rectangle left = new Wall(0, 0, 2, height, mVertexBufferObjectManager);
+		final Rectangle right = new Wall(width - 2, 0, 2, height, mVertexBufferObjectManager);
 
 		mScene.attachChild(ground);
 		mScene.attachChild(roof);
