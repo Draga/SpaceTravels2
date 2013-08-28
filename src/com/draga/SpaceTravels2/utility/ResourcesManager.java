@@ -1,5 +1,7 @@
 package com.draga.SpaceTravels2.utility;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import com.draga.SpaceTravels2.GameActivity;
 import org.andengine.audio.music.Music;
 import org.andengine.audio.music.MusicFactory;
@@ -9,6 +11,8 @@ import org.andengine.engine.Engine;
 import org.andengine.engine.camera.BoundCamera;
 import org.andengine.entity.scene.Scene;
 import org.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
+import org.andengine.opengl.font.Font;
+import org.andengine.opengl.font.FontFactory;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -47,26 +51,17 @@ public class ResourcesManager {
 	private TextureRegion mJupiterTextureRegion;
 	private TextureRegion mBackgroundTextureRegion;
 	private TiledTextureRegion mThrusterTiledTextureRegion;
+	private TiledTextureRegion mExplosionTiledTextureRegion;
 	private String mBackgroundPath = "background4.jpg";
 	private Music mThrusterMusic;
 	private Music mMusic;
 	private String mMusicPath;
 	private TextureRegion mMissileTextureRegion;
 	private Sound mMissileSound;
+	private Font mFont;
 
 	private ResourcesManager() {
 	}
-
-	public static ResourcesManager getInstance() {
-		return ourInstance;
-	}
-	//---------------------------------------------
-	// TEXTURES & TEXTURE REGIONS
-	//---------------------------------------------
-
-	//---------------------------------------------
-	// CLASS LOGIC
-	//---------------------------------------------
 
 	/**
 	 * @param engine
@@ -86,6 +81,17 @@ public class ResourcesManager {
 		getInstance().mVertexBufferObjectManager = pVertexBufferObjectManager;
 		getInstance().mScene = pScene;
 	}
+	//---------------------------------------------
+	// TEXTURES & TEXTURE REGIONS
+	//---------------------------------------------
+
+	//---------------------------------------------
+	// CLASS LOGIC
+	//---------------------------------------------
+
+	public static ResourcesManager getInstance() {
+		return ourInstance;
+	}
 
 	public static Scene getScene() {
 		return mScene;
@@ -96,49 +102,19 @@ public class ResourcesManager {
 		loadMenuAudio();
 	}
 
-	public void loadGameResources() {
-		loadGameGraphics();
-		loadGameFonts();
-		loadGameAudio();
+	private void loadMenuAudio() {
+
 	}
 
 	private void loadMenuGraphics() {
 
 	}
 
-	private void loadMenuAudio() {
-
+	public void loadGameResources() {
+		loadGameGraphics();
+		loadGameFonts();
+		loadGameAudio();
 	}
-
-	private void loadGameGraphics() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-		mBuildableTextureAtlas = new BuildableBitmapTextureAtlas(mActivity.getTextureManager(), 2048, 2048, TextureOptions.BILINEAR);
-
-		mShipTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBuildableTextureAtlas, mActivity, "ship64.png");
-		mEarthTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBuildableTextureAtlas, mActivity, "earth.png");
-		mVenusTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBuildableTextureAtlas, mActivity, "venus64.png");
-		mMarsTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBuildableTextureAtlas, mActivity, "mars.png");
-		mJupiterTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBuildableTextureAtlas, mActivity, "jupiter128.png");
-		mBackgroundTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBuildableTextureAtlas, mActivity, mBackgroundPath);
-		mMissileTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBuildableTextureAtlas, mActivity, "missile16x32.png");
-
-		mThrusterTiledTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mBuildableTextureAtlas, mActivity, "thruster.png", 6, 2);
-
-		try {
-			mBuildableTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));
-			mBuildableTextureAtlas.load();
-		} catch (ITextureAtlasBuilder.TextureAtlasBuilderException e) {
-			Debug.e(e);
-		}
-	}
-
-	private void loadGameFonts() {
-
-	}
-
-	//---------------------------------------------
-	// GETTERS AND SETTERS
-	//---------------------------------------------
 
 	private void loadGameAudio() {
 		// Thruster sound
@@ -159,6 +135,41 @@ public class ResourcesManager {
 		mThrusterMusic.setLooping(true);
 		if (mMusic != null) {
 			mMusic.setLooping(true);
+		}
+	}
+
+	private void loadGameFonts() {
+
+	}
+
+	//---------------------------------------------
+	// GETTERS AND SETTERS
+	//---------------------------------------------
+
+	private void loadGameGraphics() {
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+		mBuildableTextureAtlas = new BuildableBitmapTextureAtlas(mActivity.getTextureManager(), 2048, 2048, TextureOptions.BILINEAR);
+
+		mShipTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBuildableTextureAtlas, mActivity, "ship64.png");
+		mEarthTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBuildableTextureAtlas, mActivity, "earth.png");
+		mVenusTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBuildableTextureAtlas, mActivity, "venus64.png");
+		mMarsTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBuildableTextureAtlas, mActivity, "mars.png");
+		mJupiterTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBuildableTextureAtlas, mActivity, "jupiter128.png");
+		mBackgroundTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBuildableTextureAtlas, mActivity, mBackgroundPath);
+		mMissileTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mBuildableTextureAtlas, mActivity, "missile16x32.png");
+
+		mThrusterTiledTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mBuildableTextureAtlas, mActivity, "thruster.png", 6, 2);
+		mExplosionTiledTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mBuildableTextureAtlas, mActivity, "explosion32.png", 8, 6);
+
+		mFont = FontFactory.create(mActivity.getFontManager(), mActivity.getTextureManager(), (int) mBoundCamera.getWidth(), (int) mBoundCamera.getHeight(),
+				Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 64, true, Color.WHITE);
+		mFont.load();
+
+		try {
+			mBuildableTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));
+			mBuildableTextureAtlas.load();
+		} catch (ITextureAtlasBuilder.TextureAtlasBuilderException e) {
+			Debug.e(e);
 		}
 	}
 
@@ -242,5 +253,13 @@ public class ResourcesManager {
 
 	public Sound getMissileSound() {
 		return mMissileSound;
+	}
+
+	public TiledTextureRegion getExplosionTiledTextureRegion() {
+		return mExplosionTiledTextureRegion;
+	}
+
+	public Font getFont() {
+		return mFont;
 	}
 }

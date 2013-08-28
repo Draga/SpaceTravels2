@@ -10,6 +10,8 @@ import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
+import static java.util.Arrays.asList;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Draga86
@@ -18,7 +20,7 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
  * To change this template use File | Settings | File Templates.
  */
 public class Wall extends Rectangle {
-	private static final short MASK_BIT = Utility.tagCategoryBit(EntityTags.Ship);
+	private static final short MASK_BIT = Utility.getMaskBit(asList(EntityTags.Missile, EntityTags.Ship));
 	private final static FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(1, 0, 0.5f, false, Utility.tagCategoryBit(EntityTags.Wall), MASK_BIT, (short) 0);
 
 	public Wall(int pX, int pY, int pWidth, int pHeight, VertexBufferObjectManager pVertexBufferObjectManager) {

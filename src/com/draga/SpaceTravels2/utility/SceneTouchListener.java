@@ -37,7 +37,6 @@ public class SceneTouchListener implements IOnSceneTouchListener {
 	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
 		if (!pSceneTouchEvent.isActionDown()) return false;
 
-		ResourcesManager.getInstance().getMissileSound().play();
 		//					final Sprite shipEntity = (Sprite) pScene.getChildByTag(TAGS.Ship.ordinal());
 		//		final float[] missileCoordinates = mShip.convertLocalToSceneCoordinates(mShip.getWidth()/2-Missile.WIDTH/2, mShip.getHeight()/2-Missile.HEIGHT/2);
 
@@ -55,7 +54,6 @@ public class SceneTouchListener implements IOnSceneTouchListener {
 		//			}
 		//		})));
 
-		//TODO: remove when out of sight
 		return true;
 	}
 }

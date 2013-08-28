@@ -3,15 +3,16 @@ package com.draga.SpaceTravels2.entity;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.MassData;
 import com.draga.SpaceTravels2.utility.EntityTags;
 import com.draga.SpaceTravels2.utility.ResourcesManager;
+import com.draga.SpaceTravels2.utility.Utility;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.opengl.texture.region.TextureRegion;
-import org.andengine.opengl.vbo.VertexBufferObjectManager;
+
+import static java.util.Arrays.asList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,26 +22,30 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
  * To change this template use File | Settings | File Templates.
  */
 public class Planet extends Sprite {
+	private static final short MASK_BIT = Utility.getMaskBit(asList(EntityTags.Ship, EntityTags.Missile));
+	private static final ResourcesManager resourcesManager = ResourcesManager.getInstance();
 	private Body mBody;
+	private float mMass = 1;
 
-	public Planet(int pX, int pY, int pWidth, int pHeight, TextureRegion pTextureRegion, VertexBufferObjectManager pVertexBufferObjectManager, EntityTags pTag, float pMass) {
-		super(pX, pY, pWidth, pHeight, pTextureRegion, pVertexBufferObjectManager);
+	public Planet(int pX, int pY, int pWidth, int pHeight, TextureRegion pTextureRegion, EntityTags pTag, float pMass) {
+		super(pX, pY, pWidth, pHeight, pTextureRegion, resourcesManager.getVertexBufferObjectManager());
+		mMass = pMass;
 
 		this.setTag(pTag.ordinal());
-		createPhysics(pTag, 100, 100);
+		createPhysics();
 	}
 
-	private void createPhysics(EntityTags tag, float pMass, float pGravityScale) {
-		PhysicsWorld physicsWorld = ResourcesManager.getInstance().getFixedStepPhysicsWorld();
-		final FixtureDef fixtureDef = PhysicsFactory.createFixtureDef(0, 0, 0, false, (short) tag.ordinal(), (short) tag.ordinal(), (short) 0);
+	private void createPhysics() {
+		PhysicsWorld physicsWorld = resourcesManager.getFixedStepPhysicsWorld();
+		final FixtureDef fixtureDef = PhysicsFactory.createFixtureDef(0, 0, 0, false, Utility.tagCategoryBit(EntityTags.Planet), MASK_BIT, (short) 0);
 		mBody = PhysicsFactory.createCircleBody(physicsWorld, this, BodyDef.BodyType.StaticBody, fixtureDef);
-		final MassData massData = new MassData();
-		massData.mass = pMass;
-		mBody.setMassData(massData);
-		mBody.setGravityScale(pGravityScale);
 
-		mBody.setUserData(tag);
+		mBody.setUserData(this);
 
-		physicsWorld.registerPhysicsConnector(new PhysicsConnector(this, mBody, false, false));
+		physicsWorld.registerPhysicsConnector(new PhysicsConnector(this, mBody, true, true));
+	}
+
+	public float getMass() {
+		return mMass;
 	}
 }

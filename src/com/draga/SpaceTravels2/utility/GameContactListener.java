@@ -14,32 +14,41 @@ public class GameContactListener implements ContactListener {
 	public void beginContact(Contact contact) {
 		final Body bodyA = contact.getFixtureA().getBody();
 		final Body bodyB = contact.getFixtureB().getBody();
-		if (!(bodyA.getUserData() instanceof EntityTags) || !(bodyB.getUserData() instanceof EntityTags)) return;
-		final EntityTags bodyAUserData = (EntityTags) bodyA.getUserData();
+		final Object bodyAUserData = bodyA.getUserData();
+		final Object bodyBUserData = bodyB.getUserData();
 
-		switch (bodyAUserData) {
-			case Ship:
-				break;
-			case Missile:
-				switch ((EntityTags) bodyB.getUserData()) {
-					case Earth:
-					case Jupiter:
-					case Mars:
-					case Venus:
-						break;
-					default:
-						break;
-				}
-				break;
-			case Earth:
-				break;
-			case Jupiter:
-			case Mars:
-			case Venus:
-				break;
-			default:
-				break;
-		}
+		if (bodyAUserData instanceof IEntityContactListener)
+			((IEntityContactListener) bodyAUserData).onContact(contact, bodyB);
+		if (bodyBUserData instanceof IEntityContactListener)
+			((IEntityContactListener) bodyBUserData).onContact(contact, bodyA);
+		//		final Body bodyA = contact.getFixtureA().getBody();
+		//		final Body bodyB = contact.getFixtureB().getBody();
+		//		if (!(bodyA.getUserData() instanceof EntityTags) || !(bodyB.getUserData() instanceof EntityTags)) return;
+		//		final EntityTags bodyAUserData = (EntityTags) bodyA.getUserData();
+		//
+		//		switch (bodyAUserData) {
+		//			case Ship:
+		//				break;
+		//			case Missile:
+		//				switch ((EntityTags) bodyB.getUserData()) {
+		//					case Earth:
+		//					case Jupiter:
+		//					case Mars:
+		//					case Venus:
+		//						break;
+		//					default:
+		//						break;
+		//				}
+		//				break;
+		//			case Earth:
+		//				break;
+		//			case Jupiter:
+		//			case Mars:
+		//			case Venus:
+		//				break;
+		//			default:
+		//				break;
+		//		}
 	}
 
 	@Override
@@ -49,7 +58,6 @@ public class GameContactListener implements ContactListener {
 
 	@Override
 	public void preSolve(Contact contact, Manifold oldManifold) {
-		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
